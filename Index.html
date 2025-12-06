@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>UK University Courses Portal | Find Your Future</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -21,9 +21,7 @@
                 </button>
 
                 <a href="#" class="logo">
-                    <div class="logo-icon">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
+                    <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
                     <div class="logo-text">
                         <h1>UKVI INFO</h1>
                         <span>University Courses Portal</span>
@@ -83,9 +81,7 @@
                 <i class="fas fa-search search-icon"></i>
                 <input type="text" class="search-input" id="mainSearch"
                     placeholder="Search for courses, universities, campus/city, or keywords...">
-                <button class="search-btn" id="searchButton">
-                    <i class="fas fa-search"></i> Search
-                </button>
+                <button class="search-btn" id="searchButton"><i class="fas fa-search"></i> Search</button>
             </div>
 
             <div class="filter-grid">
@@ -139,8 +135,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div>
-                    <h2 class="modal-title" id="modalCourseTitle">Computer Science MSc</h2>
-                    <p class="modal-subtitle" id="modalUniversity">University of Oxford</p>
+                    <h2 class="modal-title" id="modalCourseTitle">Course Title</h2>
+                    <p class="modal-subtitle" id="modalUniversity">University Name</p>
                 </div>
                 <button class="close-btn" id="closeModal">&times;</button>
             </div>
@@ -151,19 +147,19 @@
                         <h4>Course Information</h4>
                         <div class="info-item">
                             <div class="info-label">Course Level</div>
-                            <div class="info-value" id="modalCourseLevel">Postgraduate (MSc)</div>
+                            <div class="info-value" id="modalCourseLevel"></div>
                         </div>
                         <div class="info-item">
                             <div class="info-label">Intake Period</div>
-                            <div class="info-value" id="modalIntake">September 2024</div>
+                            <div class="info-value" id="modalIntake"></div>
                         </div>
                         <div class="info-item">
                             <div class="info-label">Duration</div>
-                            <div class="info-value" id="modalDuration">12 months (Full-time)</div>
+                            <div class="info-value" id="modalDuration"></div>
                         </div>
                         <div class="info-item">
                             <div class="info-label">Course Fee</div>
-                            <div class="info-value" id="modalFee">£28,560 (International)</div>
+                            <div class="info-value" id="modalFee"></div>
                         </div>
                     </div>
 
@@ -171,23 +167,19 @@
                         <h4>Entry Requirements</h4>
                         <div class="info-item">
                             <div class="info-label">Academic Requirements</div>
-                            <div class="info-value" id="modalAcademicReq">Upper second-class undergraduate degree (2:1)
-                                in Computer Science or related field</div>
+                            <div class="info-value" id="modalAcademicReq"></div>
                         </div>
                     </div>
                 </div>
 
                 <div class="modal-section">
                     <h4>English Language Requirements</h4>
-                    <ul class="requirement-list" id="modalEnglishReq">
-                        <!-- Will be populated by JavaScript -->
-                    </ul>
+                    <ul class="requirement-list" id="modalEnglishReq"></ul>
                 </div>
 
                 <div class="modal-section">
                     <h4>Course Overview</h4>
-                    <p id="modalDescription">This advanced programme provides in-depth knowledge of computer science
-                        principles and applications.</p>
+                    <p id="modalDescription"></p>
                 </div>
 
                 <div class="modal-actions">
@@ -195,12 +187,8 @@
                         style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
                         <i class="fas fa-external-link-alt"></i> View Course Link
                     </a>
-                    <button class="btn-secondary" id="saveCourse">
-                        <i class="far fa-bookmark"></i> Save Course
-                    </button>
-                    <button class="btn-secondary" id="shareCourse">
-                        <i class="fas fa-share-alt"></i> Share
-                    </button>
+                    <button class="btn-secondary" id="saveCourse"><i class="far fa-bookmark"></i> Save Course</button>
+                    <button class="btn-secondary" id="shareCourse"><i class="fas fa-share-alt"></i> Share</button>
                 </div>
             </div>
         </div>
@@ -285,9 +273,7 @@
             </div>
 
             <div class="footer-bottom">
-                <div class="copyright">
-                    &copy; 2025 UKVI INFO. All rights reserved.
-                </div>
+                <div class="copyright">&copy; 2025 UKVI INFO. All rights reserved.</div>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-twitter"></i></a>
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -298,6 +284,7 @@
             </div>
         </div>
     </footer>
+
     <!-- Firebase (compat build for namespaced API like firebase.firestore()) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>

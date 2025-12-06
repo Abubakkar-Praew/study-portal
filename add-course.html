@@ -38,7 +38,8 @@
 
     input[type="text"],
     input[type="url"],
-    select {
+    select,
+    textarea {
       width: 100%;
       padding: 10px 12px;
       border-radius: 6px;
@@ -106,8 +107,8 @@
   <div class="card">
     <a href="Index.html" class="home"><i class="fas fa-arrow-left"></i> Back to Courses</a>
     <h2>Add Course</h2>
-    <p class="helper">Fill fields and click <strong>Save Course</strong>. This stores the course locally in your
-      browser.</p>
+    <p class="helper">Fill fields and click <strong>Save Course</strong>. This will save to Firestore (or locally as a
+      fallback).</p>
 
     <form id="addCourseForm">
       <div class="row">
@@ -156,6 +157,22 @@
         </div>
       </div>
 
+      <div class="col" style="flex-basis:100%;">
+        <label for="academicReq">Entry Requirements (short)</label>
+        <textarea id="academicReq" name="academicReq" rows="2" placeholder="e.g. Bachelor's degree or equivalent"
+          required></textarea>
+      </div>
+
+      <div class="col" style="flex-basis:100%;">
+        <label for="description">Course Overview</label>
+        <textarea id="description" name="description" rows="4" placeholder="Short course overview" required></textarea>
+      </div>
+
+      <div class="col" style="flex-basis:100%;">
+        <label for="englishReq">English Requirements (comma separated)</label>
+        <input id="englishReq" name="englishReq" type="text" placeholder="e.g. IELTS 6.0, No component below 5.5">
+      </div>
+
       <div class="actions">
         <button type="submit" class="btn-primary">Save Course</button>
         <button type="button" id="clearBtn" class="btn-secondary">Clear</button>
@@ -165,28 +182,50 @@
     </form>
   </div>
 
-  <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js"></script>
+  <!-- Firebase compat SDKs (namespaced) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
   <script>
-    // Firebase Configuration (same as Index.js)
+    // Firebase config (same as Index.js)
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "your-project.firebaseapp.com",
+      apiKey: "AIzaSyCGQKCkBDhozfG8bqYObKSCS2sxdZQEJm4",
+      authDomain: "ukvi-info.firebaseapp.com",
       projectId: "ukvi-info",
-      storageBucket: "your-project.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
+      storageBucket: "ukvi-info.firebasestorage.app",
+      messagingSenderId: "40936408296",
+      appId: "1:40936408296:web:661bb619ed6bc75437355d",
+      measurementId: "G-N021HN10HT"
     };
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    // Initialize Firebase (compat) if present
+    let db = null;
+    if (window.firebase) {
+      if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+      db = firebase.firestore();
+    } else {
+      console.warn('Firebase SDK not loaded on add-course page.');
+    }
 
     function showNotice(msg, ok = true) {
       const n = document.getElementById('notice');
       n.style.display = 'block';
       n.classList.toggle('error', !ok);
       n.textContent = msg;
-      setTimeout(() => n.style.display = 'none', 4000);
+      setTimeout(() => n.style.display = 'none', 3500);
+    }
+
+    function saveCourseToLocal(newCourse) {
+      try {
+        const raw = localStorage.getItem('customCourses');
+        const arr = raw ? JSON.parse(raw) : [];
+        arr.push(newCourse);
+        localStorage.setItem('customCourses', JSON.stringify(arr));
+        return true;
+      } catch (err) {
+        console.error('Local save failed', err);
+        return false;
+      }
     }
 
     document.getElementById('addCourseForm').addEventListener('submit', async function (e) {
@@ -200,20 +239,16 @@
       const duration = document.getElementById('duration').value.trim();
       const fee = document.getElementById('fee').value.trim();
       const officialLink = document.getElementById('officialLink').value.trim();
-      const academicReq = document.getElementById('academicReq').value.trim();
-      const description = document.getElementById('description').value.trim();
-      const englishReqInput = document.getElementById('englishReq').value.trim();
+      const academicReq = (document.getElementById('academicReq') || {}).value || '';
+      const description = (document.getElementById('description') || {}).value || '';
+      const englishReqInput = (document.getElementById('englishReq') || {}).value || '';
 
-      // Validate
       if (!u || !courseName || !level || !intake || !campus || !duration || !fee || !academicReq || !description) {
-        showNotice('Please fill in all required fields marked with *', false);
+        showNotice('Please fill in all required fields', false);
         return;
       }
 
-      const englishReq = englishReqInput
-        .split(',')
-        .map(req => req.trim())
-        .filter(req => req.length > 0);
+      const englishReq = englishReqInput ? englishReqInput.split(',').map(s => s.trim()).filter(Boolean) : ['IELTS 6.0 or equivalent'];
 
       const newCourse = {
         id: Date.now() + Math.floor(Math.random() * 1000),
@@ -227,24 +262,44 @@
         campus,
         academicReq,
         description,
-        englishReq: englishReq.length > 0 ? englishReq : ['IELTS 6.0 or equivalent'],
+        englishReq,
         createdAt: new Date().toISOString()
       };
 
       try {
-        // Call Firebase function from parent window if available
-        if (window.opener && window.opener.saveCourseToCFirebase) {
-          await window.opener.saveCourseToCFirebase(newCourse);
-        } else if (window.parent && window.parent.saveCourseToCFirebase) {
-          await window.parent.saveCourseToCFirebase(newCourse);
+        // Firestore
+        if (db) {
+          await db.collection('courses').doc(String(newCourse.id)).set(newCourse);
+          showNotice('✓ Course saved to Firestore. Redirecting...');
+          setTimeout(() => { window.location.href = 'Index.html'; }, 1000);
+          return;
         }
 
-        showNotice('✓ Course added successfully! Redirecting to main page...');
-        setTimeout(() => {
-          window.location.href = 'Index.html';
-        }, 2000);
+        // Try parent/opener hooks (if any)
+        if (window.opener && window.opener.saveCourseToCFirebase) {
+          await window.opener.saveCourseToCFirebase(newCourse);
+          showNotice('✓ Course added. Redirecting...');
+          setTimeout(() => { window.location.href = 'Index.html'; }, 900);
+          return;
+        }
+        if (window.parent && window.parent.saveCourseToCFirebase) {
+          await window.parent.saveCourseToCFirebase(newCourse);
+          showNotice('✓ Course added. Redirecting...');
+          setTimeout(() => { window.location.href = 'Index.html'; }, 900);
+          return;
+        }
+
+        // Local fallback
+        if (saveCourseToLocal(newCourse)) {
+          showNotice('✓ Course saved locally (fallback). Redirecting...');
+          setTimeout(() => { window.location.href = 'Index.html'; }, 800);
+          return;
+        }
+
+        showNotice('Could not save course', false);
       } catch (err) {
-        showNotice('Error adding course: ' + err.message, false);
+        console.error('Save failed:', err);
+        showNotice('Error adding course: ' + (err.message || String(err)), false);
       }
     });
 
