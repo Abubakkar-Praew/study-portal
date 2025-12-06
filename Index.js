@@ -1,37 +1,19 @@
-// Firebase Configuration
-const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "your-project.firebaseapp.com",
-    projectId: "ukvi-info",
-    storageBucket: "your-project.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
-let courses = [];
-
-// Load courses from Firestore
-async function loadCoursesFromFirebase() {
-    try {
-        const querySnapshot = await db.collection('courses').get();
-        courses = [];
-        querySnapshot.forEach((doc) => {
-            courses.push(doc.data());
-        });
-        filteredCourses = [...courses];
-        populateFilters();
-        renderCourses();
-    } catch (err) {
-        console.error('Error loading courses:', err);
-    }
-}
-
 // Enhanced course data
-const courses = [
+let courses = [
+    {
+        id: 1,
+        university: "Buckinghamshire New University",
+        courseName: "BA (Hons) International Hospitality Management",
+        level: "undergraduate",
+        intake: "April 2026",
+        fee: "£15,150 per year",
+        duration: "3 Year",
+        officialLink: "https://www.bucks.ac.uk/courses/undergraduate/ba-hons-international-hospitality-management",
+        campus: "High Wycombe",
+        academicReq: "A Levels or equivalent qualification",
+        description: "This course prepares students for careers in the hospitality industry with comprehensive knowledge of management, operations, and customer service excellence.",
+        englishReq: ["IELTS 6.0 or equivalent", "No component below 5.5"]
+    },
     {
         id: 1,
         university: "Buckinghamshire New University",
@@ -326,9 +308,11 @@ function populateFilters() {
 
 // Initialize the page
 document.addEventListener('DOMContentLoaded', function () {
-    loadCoursesFromFirebase();
+    populateFilters();
+    renderCourses();
     setupEventListeners();
     setupQuickFilters();
+    loadCoursesFromFirebase(); // Load Firebase courses after default courses
 });
 
 // Render course cards
@@ -823,4 +807,62 @@ function saveCourse(courseId) {
 
     // Initialize
     initState();
+
+
+
+    // ===== FIREBASE INTEGRATION =====
+    // Firebase Configuration - REPLACE WITH YOUR CONFIG
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN.firebaseapp.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    if (!window.firebase) {
+        console.error('Firebase SDK not loaded');
+    } else {
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
+
+        // Load courses from Firestore and merge with defaults
+        async function loadCoursesFromFirebase() {
+            try {
+                const querySnapshot = await db.collection('courses').get();
+                const firebaseCourses = [];
+                querySnapshot.forEach((doc) => {
+                    firebaseCourses.push(doc.data());
+                });
+                // Add Firebase courses to the existing courses array
+                if (firebaseCourses.length > 0) {
+                    courses = [...courses, ...firebaseCourses];
+                    filteredCourses = [...courses];
+                    populateFilters();
+                    renderCourses();
+                    console.log('✅ Firebase courses loaded:', firebaseCourses.length);
+                }
+            } catch (err) {
+                console.warn('Firebase courses not loaded:', err.message);
+            }
+        }
+
+        // Save new course to Firebase
+        window.saveCourseToCFirebase = async function (courseData) {
+            try {
+                const docId = String(courseData.id);
+                await db.collection('courses').doc(docId).set(courseData);
+                console.log('✅ Course saved to Firebase');
+                return true;
+            } catch (err) {
+                console.error('Error saving course:', err);
+                return false;
+            }
+        };
+    }
+
 })();

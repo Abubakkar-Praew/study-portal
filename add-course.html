@@ -228,14 +228,21 @@
         academicReq,
         description,
         englishReq: englishReq.length > 0 ? englishReq : ['IELTS 6.0 or equivalent'],
-        createdAt: new Date()
+        createdAt: new Date().toISOString()
       };
 
       try {
-        // Add to Firestore
-        await db.collection('courses').doc(String(newCourse.id)).set(newCourse);
-        showNotice('✓ Course added successfully! All users will see this course worldwide.');
-        this.reset();
+        // Call Firebase function from parent window if available
+        if (window.opener && window.opener.saveCourseToCFirebase) {
+          await window.opener.saveCourseToCFirebase(newCourse);
+        } else if (window.parent && window.parent.saveCourseToCFirebase) {
+          await window.parent.saveCourseToCFirebase(newCourse);
+        }
+
+        showNotice('✓ Course added successfully! Redirecting to main page...');
+        setTimeout(() => {
+          window.location.href = 'Index.html';
+        }, 2000);
       } catch (err) {
         showNotice('Error adding course: ' + err.message, false);
       }
