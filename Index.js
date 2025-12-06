@@ -274,10 +274,10 @@
                 card.setAttribute('data-id', course.id);
                 
                 card.innerHTML = `
-                    <div class="course-header">
-                        <div class="university-name">${course.university}</div>
-                        <h3 class="course-title">${course.courseName}</h3>
-                        <div class="course-badges">
+                    <div class="course-header" style="display: flex; flex-direction: column;">
+                        <div class="university-name" style="flex: 1; display: flex; align-items: center;">${course.university}</div>
+                        <h3 class="course-title" style="flex: 1; display: flex; align-items: center;">${course.courseName}</h3>
+                        <div class="course-badges" style="flex: 1; display: flex; align-items: center; gap: 8px;">
                             <span class="badge">${course.level}</span>
                             <span class="badge">${course.campus}</span>
                             ${course.scholarship === 'Available' || course.scholarship === 'Fully-funded available' ? 
@@ -294,11 +294,10 @@
                                 <span class="detail-label">Duration</span>
                                 <span class="detail-value">${course.duration}</span>
                             </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Course Fee</span>
-                                <span class="detail-value">${course.fee}</span>
-                            </div>
-
+                        </div>
+                        <div class="detail-item" style="text-align: center; margin: 15px 0;">
+                            <span class="detail-label" style="display: block;">Course Fee</span>
+                            <span class="detail-value" style="font-size: 1.2rem; font-weight: 600; color: var(--primary);">${course.fee}</span>
                         </div>
                         <div class="course-actions">
                             <button class="btn-primary view-details-btn">
@@ -520,7 +519,7 @@
             });
             
             // Show modal
-            // Hide fields per user request: Course Level, Duration, and Course Overview
+            // Hide fields per user request: Course Level, Duration, Course Overview, English Requirements, and Entry Requirements
             try {
                 const levelVal = document.getElementById('modalCourseLevel');
                 if (levelVal && levelVal.parentElement) levelVal.parentElement.style.display = 'none';
@@ -532,6 +531,20 @@
                 if (overviewP) {
                     const overviewSection = overviewP.closest('.modal-section');
                     if (overviewSection) overviewSection.style.display = 'none';
+                }
+
+                // Hide Entry Requirements section (contains academicReq)
+                const academicReq = document.getElementById('modalAcademicReq');
+                if (academicReq) {
+                    const entryReqSection = academicReq.closest('.modal-section');
+                    if (entryReqSection) entryReqSection.style.display = 'none';
+                }
+
+                // Hide English Language Requirements section
+                const englishReqList = document.getElementById('modalEnglishReq');
+                if (englishReqList) {
+                    const englishSection = englishReqList.closest('.modal-section');
+                    if (englishSection) englishSection.style.display = 'none';
                 }
             } catch (err) {
                 console.warn('Error hiding modal fields:', err);
@@ -554,6 +567,18 @@
                 if (overviewP) {
                     const overviewSection = overviewP.closest('.modal-section');
                     if (overviewSection) overviewSection.style.display = '';
+                }
+
+                const academicReq = document.getElementById('modalAcademicReq');
+                if (academicReq) {
+                    const entryReqSection = academicReq.closest('.modal-section');
+                    if (entryReqSection) entryReqSection.style.display = '';
+                }
+
+                const englishReqList = document.getElementById('modalEnglishReq');
+                if (englishReqList) {
+                    const englishSection = englishReqList.closest('.modal-section');
+                    if (englishSection) englishSection.style.display = '';
                 }
             } catch (err) {
                 console.warn('Error restoring modal fields:', err);
