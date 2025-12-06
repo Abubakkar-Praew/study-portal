@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign In — UKVI INFO</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --primary: #0d3a66;
+      --muted: #64748b;
+      --radius: 12px;
+      --shadow: 0 8px 30px rgba(13, 58, 102, 0.08);
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      background: linear-gradient(180deg, #eef6fb 0%, var(--bg) 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: var(--primary);
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: var(--card);
+      padding: 28px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(13, 58, 102, 0.04);
+    }
+
+    h2 {
+      margin: 0 0 12px 0;
+      font-size: 1.25rem;
+    }
+
+    .helper {
+      margin: 0 0 18px 0;
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #e6edf3;
+      font-size: 1rem;
+      background: white;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      width: 100%;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .error {
+      color: #b91c1c;
+      font-size: .9rem;
+      margin-top: 8px;
+      display: none;
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <section class="card" aria-labelledby="signin-heading">
+      <h2 id="signin-heading">Sign in</h2>
+      <p class="helper">Enter your email and password to continue.</p>
+
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@domain.com" />
+          <div id="emailError" class="error">Please enter a valid email.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required
+            placeholder="Enter your password" />
+          <div id="passError" class="error">Password is required (min 6 chars).</div>
+        </div>
+
+        <div style="margin-top:6px;">
+          <button type="submit" class="btn btn-primary" id="submitBtn"><i class="fas fa-lock"></i> Sign in</button>
+        </div>
+
+        <div id="authError" class="error" role="alert" aria-live="assertive"></div>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const form = document.getElementById('loginForm');
+      const email = document.getElementById('email');
+      const password = document.getElementById('password');
+      const emailError = document.getElementById('emailError');
+      const passError = document.getElementById('passError');
+      const authError = document.getElementById('authError');
+
+      // Demo credentials (for local testing only)
+      const demo = { email: 'demo@demo.com', password: 'Password123' };
+
+      function validate() {
+        let ok = true;
+        emailError.style.display = 'none';
+        passError.style.display = 'none';
+        authError.style.display = 'none';
+
+        if (!email.value || !/^\S+@\S+\.\S+$/.test(email.value)) {
+          emailError.style.display = 'block';
+          ok = false;
+        }
+        if (!password.value || password.value.length < 6) {
+          passError.style.display = 'block';
+          ok = false;
+        }
+        return ok;
+      }
+
+      function setAuth(userEmail) {
+        const token = 'demo-token-' + Date.now();
+        const payload = { token, email: userEmail, issuedAt: Date.now() };
+        // store in sessionStorage by default
+        try { sessionStorage.setItem('auth', JSON.stringify(payload)); } catch (e) { }
+      }
+
+      form.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        if (!validate()) return;
+
+        // check users saved in localStorage first (optional)
+        try {
+          const raw = localStorage.getItem('users');
+          const users = raw ? JSON.parse(raw) : [];
+          const found = Array.isArray(users) && users.find(u => u.email && u.email.toLowerCase() === email.value.toLowerCase() && u.password === password.value);
+          if (found) { setAuth(found.email); window.location.href = 'Index.html'; return; }
+        } catch (e) { /* ignore parse errors */ }
+
+        // fallback demo check
+        if (email.value.toLowerCase() === demo.email && password.value === demo.password) {
+          setAuth(demo.email);
+          window.location.href = 'Index.html';
+          return;
+        }
+
+        authError.textContent = 'Invalid email or password.';
+        authError.style.display = 'block';
+      });
+
+      // allow Enter to submit from inputs
+      [email, password].forEach(inp => inp.addEventListener('keyup', function (e) {
+        if (e.key === 'Enter') form.requestSubmit();
+      }));
+    })();
+  </script>
+</body>
+
+</html>

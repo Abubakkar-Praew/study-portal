@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,11 +9,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
     <!-- Header -->
     <header>
         <div class="container">
             <div class="header-content">
+                <button id="mobileToggle" class="btn-icon mobile-toggle" aria-label="Open menu" title="Menu"
+                    aria-expanded="false">
+                    <i class="fas fa-bars"></i>
+                </button>
+
                 <a href="#" class="logo">
                     <div class="logo-icon">
                         <i class="fas fa-graduation-cap"></i>
@@ -22,7 +29,7 @@
                         <span>University Courses Portal</span>
                     </div>
                 </a>
-                
+
                 <ul class="nav-links">
                     <li><a href="#" class="active">Courses</a></li>
                     <li><a href="#">Universities</a></li>
@@ -30,30 +37,35 @@
                     <li><a href="#">Resources</a></li>
                     <li><a href="#">FAQs</a></li>
                 </ul>
-                
+
                 <div class="header-actions">
-                    <button class="btn-outline btn-icon" id="notifications" aria-label="Notifications" title="Notifications">
+                    <button class="btn-outline btn-icon" id="notifications" aria-label="Notifications"
+                        title="Notifications">
                         <i class="fas fa-bell"></i>
                     </button>
                     <button class="btn-outline btn-icon" id="favorite" aria-label="Favorites" title="Favorites">
                         <i class="far fa-heart"></i>
                     </button>
-                    <button class="btn-outline"><i class="fas fa-user"></i> Account</button>
+                    <button class="btn-outline" id="accountBtn"><i class="fas fa-user"></i> Account</button>
                 </div>
             </div>
         </div>
     </header>
-    
+
+    <!-- Mobile panel (hidden by default) -->
+    <div id="mobilePanel" class="mobile-panel" aria-hidden="true"></div>
+
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
             <div class="hero-content">
                 <h2>Find Your Perfect UK University Course</h2>
-                <p>Browse 2,500+ courses from 120+ UK universities with upcoming intakes, deadlines, and entry requirements all in one place.</p>
+                <p>Browse 2,500+ courses from 120+ UK universities with upcoming intakes, deadlines, and entry
+                    requirements all in one place.</p>
             </div>
         </div>
     </section>
-    
+
     <!-- Search Section -->
     <section class="container">
         <div class="search-section">
@@ -61,90 +73,67 @@
                 <h3>Find Courses</h3>
                 <div class="quick-filters">
                     <span class="filter-chip active">All Courses</span>
-                    <span class="filter-chip">September 2024</span>
+                    <span class="filter-chip">April 2026</span>
                     <span class="filter-chip">Postgraduate</span>
-                    <span class="filter-chip">Business</span>
-                    <span class="filter-chip">Engineering</span>
+                    <span class="filter-chip">undergraduate</span>
                 </div>
             </div>
-            
+
             <div class="search-bar">
                 <i class="fas fa-search search-icon"></i>
-                <input type="text" class="search-input" id="mainSearch" placeholder="Search for courses, universities, subjects, or keywords...">
+                <input type="text" class="search-input" id="mainSearch"
+                    placeholder="Search for courses, universities, campus/city, or keywords...">
                 <button class="search-btn" id="searchButton">
                     <i class="fas fa-search"></i> Search
                 </button>
             </div>
-            
+
             <div class="filter-grid">
                 <div class="filter-group">
                     <label for="university"><i class="fas fa-university"></i> University</label>
                     <select id="university" class="filter-select">
                         <option value="all">All Universities</option>
-                        <option value="oxford">University of Oxford</option>
-                        <option value="cambridge">University of Cambridge</option>
-                        <option value="imperial">Imperial College London</option>
-                        <option value="ucl">University College London</option>
-                        <option value="lse">London School of Economics</option>
-                        <option value="manchester">University of Manchester</option>
-                        <option value="edinburgh">University of Edinburgh</option>
                     </select>
                 </div>
-                
                 <div class="filter-group">
                     <label for="intake"><i class="fas fa-calendar-alt"></i> Intake Period</label>
                     <select id="intake" class="filter-select">
                         <option value="all">All Intakes</option>
-                        <option value="sept">September 2024</option>
-                        <option value="jan">January 2025</option>
-                        <option value="april">April 2025</option>
-                        <option value="sept-2025">September 2025</option>
                     </select>
                 </div>
-                
+
                 <div class="filter-group">
                     <label for="course-type"><i class="fas fa-graduation-cap"></i> Course Level</label>
                     <select id="course-type" class="filter-select">
                         <option value="all">All Levels</option>
-                        <option value="undergraduate">Undergraduate</option>
-                        <option value="postgraduate">Postgraduate</option>
-                        <option value="phd">PhD/Research</option>
-                        <option value="foundation">Foundation</option>
                     </select>
                 </div>
-                
+
                 <div class="filter-group">
-                    <label for="subject"><i class="fas fa-book-open"></i> Subject Area</label>
-                    <select id="subject" class="filter-select">
-                        <option value="all">All Subjects</option>
-                        <option value="business">Business & Management</option>
-                        <option value="engineering">Engineering</option>
-                        <option value="computer-science">Computer Science</option>
-                        <option value="medicine">Medicine & Health</option>
-                        <option value="humanities">Humanities</option>
-                        <option value="science">Science</option>
-                        <option value="law">Law</option>
+                    <label for="campus"><i class="fas fa-map-marker-alt"></i> Campus/City</label>
+                    <select id="campus" class="filter-select">
+                        <option value="all">All Campuses</option>
                     </select>
                 </div>
             </div>
         </div>
     </section>
-    
+
     <!-- Results Section -->
     <section class="container">
         <div class="results-header">
             <h3>Recommended Courses</h3>
             <div class="results-count">
                 <i class="fas fa-search"></i>
-                <span id="resultsCount">7 courses found</span>
+                <span id="resultsCount">0 courses found</span>
             </div>
         </div>
-        
+
         <div class="courses-grid" id="coursesContainer">
             <!-- Course cards will be populated by JavaScript -->
         </div>
     </section>
-    
+
     <!-- Modal for Course Details -->
     <div class="modal-overlay" id="courseModal">
         <div class="modal-content">
@@ -155,7 +144,7 @@
                 </div>
                 <button class="close-btn" id="closeModal">&times;</button>
             </div>
-            
+
             <div class="modal-body">
                 <div class="modal-grid">
                     <div class="modal-section">
@@ -177,31 +166,33 @@
                             <div class="info-value" id="modalFee">£28,560 (International)</div>
                         </div>
                     </div>
-                    
+
                     <div class="modal-section">
                         <h4>Entry Requirements</h4>
                         <div class="info-item">
                             <div class="info-label">Academic Requirements</div>
-                            <div class="info-value" id="modalAcademicReq">Upper second-class undergraduate degree (2:1) in Computer Science or related field</div>
+                            <div class="info-value" id="modalAcademicReq">Upper second-class undergraduate degree (2:1)
+                                in Computer Science or related field</div>
                         </div>
-
                     </div>
                 </div>
-                
+
                 <div class="modal-section">
                     <h4>English Language Requirements</h4>
                     <ul class="requirement-list" id="modalEnglishReq">
                         <!-- Will be populated by JavaScript -->
                     </ul>
                 </div>
-                
+
                 <div class="modal-section">
                     <h4>Course Overview</h4>
-                    <p id="modalDescription">This advanced programme provides in-depth knowledge of computer science principles and applications. Students will engage with cutting-edge research and develop practical skills in software development, machine learning, and data science. The course includes both theoretical foundations and practical applications, preparing graduates for careers in tech industries or further academic research.</p>
+                    <p id="modalDescription">This advanced programme provides in-depth knowledge of computer science
+                        principles and applications.</p>
                 </div>
-                
+
                 <div class="modal-actions">
-                    <a href="#" class="btn-primary" id="modalOfficialLink" target="_blank" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                    <a href="#" class="btn-primary" id="modalOfficialLink" target="_blank"
+                        style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
                         <i class="fas fa-external-link-alt"></i> View Course Link
                     </a>
                     <button class="btn-secondary" id="saveCourse">
@@ -214,16 +205,54 @@
             </div>
         </div>
     </div>
-    
+
+    <!-- Login Modal (popup) -->
+    <div class="modal-overlay" id="loginModal" aria-hidden="true"
+        style="display:none; align-items:center; justify-content:center;">
+        <div class="modal-content" style="max-width:420px; width: 96%; padding: 20px;">
+            <div class="modal-header" style="display:flex; justify-content:space-between; align-items:center;">
+                <h2 class="modal-title">Sign in</h2>
+                <button class="close-btn" id="closeLoginModal" aria-label="Close">×</button>
+            </div>
+
+            <div class="modal-body" style="margin-top:8px;">
+                <form id="loginModalForm" novalidate>
+                    <div class="modal-section">
+                        <label for="loginEmail" style="display:block; margin-bottom:6px; color:#64748b;">Email
+                            address</label>
+                        <input id="loginEmail" name="loginEmail" type="email" placeholder="you@domain.com"
+                            style="width:100%; padding:10px; border-radius:8px; border:1px solid #e6edf3;" required />
+                        <div id="loginEmailError" class="error"
+                            style="display:none; color:#b91c1c; margin-top:6px; font-size:.95rem;">Please enter a valid
+                            email.</div>
+                    </div>
+
+                    <div class="modal-section" style="margin-top:10px;">
+                        <label for="loginPassword"
+                            style="display:block; margin-bottom:6px; color:#64748b;">Password</label>
+                        <input id="loginPassword" name="loginPassword" type="password" placeholder="Enter your password"
+                            style="width:100%; padding:10px; border-radius:8px; border:1px solid #e6edf3;" required />
+                        <div id="loginPassError" class="error"
+                            style="display:none; color:#b91c1c; margin-top:6px; font-size:.95rem;">Password required
+                            (min 6 chars).</div>
+                    </div>
+
+                    <div style="margin-top:14px;">
+                        <button type="submit" class="btn btn-primary" style="width:100%;"><i class="fas fa-lock"></i>
+                            Sign in</button>
+                    </div>
+
+                    <div id="loginAuthError" class="error" role="alert" aria-live="assertive"
+                        style="display:none; margin-top:10px;"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
-                <!-- <div class="footer-section">
-                    <h4>UKVI INFO</h4>
-                    <p>Your comprehensive portal for UK university courses, intakes, and deadlines. Helping students find their perfect course since 2020.</p>
-                </div> -->
-                
                 <div class="footer-section">
                     <h4>Quick Links</h4>
                     <ul class="footer-links">
@@ -234,7 +263,7 @@
                         <li><a href="#">Student Resources</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-section">
                     <h4>Contact</h4>
                     <ul class="footer-links">
@@ -243,17 +272,18 @@
                         <li><a href="#"><i class="fas fa-map-marker-alt"></i> Islamabad, Pakistan</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-section">
                     <h4>Newsletter</h4>
                     <p>Subscribe for updates on new courses and deadlines.</p>
                     <div style="margin-top: 10px;">
-                        <input type="email" placeholder="Your email" style="padding: 8px; border-radius: 4px; border: none; width: 70%; margin-right: 5px;">
+                        <input type="email" placeholder="Your email"
+                            style="padding: 8px; border-radius: 4px; border: none; width: 70%; margin-right: 5px;">
                         <button class="btn-primary" style="padding: 8px 12px;">Subscribe</button>
                     </div>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
                 <div class="copyright">
                     &copy; 2025 UKVI INFO. All rights reserved.
@@ -268,7 +298,11 @@
             </div>
         </div>
     </footer>
-    
-<script src="Index.js"></script>
+    <script src="Index.js"></script>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js"></script>
 </body>
+
 </html>

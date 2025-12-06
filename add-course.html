@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Add Course — UKVI INFO</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      font-family: Inter, system-ui, Arial;
+      background: #f6f8fb;
+      padding: 24px;
+      color: #0d2438;
+    }
+
+    .card {
+      max-width: 800px;
+      margin: 24px auto;
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, .08);
+    }
+
+    .row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    label {
+      display: block;
+      font-size: .9rem;
+      margin-bottom: 6px;
+      color: #475569;
+    }
+
+    input[type="text"],
+    input[type="url"],
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: 1px solid #e6edf3;
+      box-sizing: border-box;
+    }
+
+    .col {
+      flex: 1 1 240px;
+      min-width: 200px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    button {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .btn-primary {
+      background: #1a365d;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #e6edf3;
+      color: #0d2438;
+    }
+
+    .helper {
+      font-size: .85rem;
+      color: #64748b;
+      margin-top: 6px;
+    }
+
+    .notice {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 6px;
+      background: #ecfeff;
+      color: #065f46;
+      display: none;
+    }
+
+    a.home {
+      color: #1a365d;
+      text-decoration: none;
+      font-size: .95rem;
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <a href="Index.html" class="home"><i class="fas fa-arrow-left"></i> Back to Courses</a>
+    <h2>Add Course</h2>
+    <p class="helper">Fill fields and click <strong>Save Course</strong>. This stores the course locally in your
+      browser.</p>
+
+    <form id="addCourseForm">
+      <div class="row">
+        <div class="col">
+          <label for="university">University</label>
+          <input id="university" name="university" type="text" placeholder="University name" required>
+        </div>
+
+        <div class="col">
+          <label for="courseName">Course Name</label>
+          <input id="courseName" name="courseName" type="text" placeholder="e.g. MSc Computer Science" required>
+        </div>
+
+        <div class="col">
+          <label for="level">Level</label>
+          <select id="level" name="level" required>
+            <option value="postgraduate">Postgraduate</option>
+            <option value="undergraduate">Undergraduate</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="col">
+          <label for="intake">Intake</label>
+          <input id="intake" name="intake" type="text" placeholder="e.g. April 2026" required>
+        </div>
+
+        <div class="col">
+          <label for="campus">Campus/City</label>
+          <input id="campus" name="campus" type="text" placeholder="City or campus" required>
+        </div>
+
+        <div class="col">
+          <label for="duration">Duration</label>
+          <input id="duration" name="duration" type="text" placeholder="e.g. 1 Year (Full-time)" required>
+        </div>
+
+        <div class="col">
+          <label for="fee">Course Fee</label>
+          <input id="fee" name="fee" type="text" placeholder="e.g. £15,150 per year" required>
+        </div>
+
+        <div class="col" style="flex-basis:100%;">
+          <label for="officialLink">Official Link (optional)</label>
+          <input id="officialLink" name="officialLink" type="url" placeholder="https://...">
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn-primary">Save Course</button>
+        <button type="button" id="clearBtn" class="btn-secondary">Clear</button>
+      </div>
+
+      <div id="notice" class="notice"></div>
+    </form>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js"></script>
+  <script>
+    // Firebase Configuration (same as Index.js)
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "your-project.firebaseapp.com",
+      projectId: "ukvi-info",
+      storageBucket: "your-project.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    function showNotice(msg, ok = true) {
+      const n = document.getElementById('notice');
+      n.style.display = 'block';
+      n.classList.toggle('error', !ok);
+      n.textContent = msg;
+      setTimeout(() => n.style.display = 'none', 4000);
+    }
+
+    document.getElementById('addCourseForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const u = document.getElementById('university').value.trim();
+      const courseName = document.getElementById('courseName').value.trim();
+      const level = document.getElementById('level').value.trim();
+      const intake = document.getElementById('intake').value.trim();
+      const campus = document.getElementById('campus').value.trim();
+      const duration = document.getElementById('duration').value.trim();
+      const fee = document.getElementById('fee').value.trim();
+      const officialLink = document.getElementById('officialLink').value.trim();
+      const academicReq = document.getElementById('academicReq').value.trim();
+      const description = document.getElementById('description').value.trim();
+      const englishReqInput = document.getElementById('englishReq').value.trim();
+
+      // Validate
+      if (!u || !courseName || !level || !intake || !campus || !duration || !fee || !academicReq || !description) {
+        showNotice('Please fill in all required fields marked with *', false);
+        return;
+      }
+
+      const englishReq = englishReqInput
+        .split(',')
+        .map(req => req.trim())
+        .filter(req => req.length > 0);
+
+      const newCourse = {
+        id: Date.now() + Math.floor(Math.random() * 1000),
+        university: u,
+        courseName,
+        level,
+        intake,
+        fee,
+        duration,
+        officialLink: officialLink || 'https://example.com',
+        campus,
+        academicReq,
+        description,
+        englishReq: englishReq.length > 0 ? englishReq : ['IELTS 6.0 or equivalent'],
+        createdAt: new Date()
+      };
+
+      try {
+        // Add to Firestore
+        await db.collection('courses').doc(String(newCourse.id)).set(newCourse);
+        showNotice('✓ Course added successfully! All users will see this course worldwide.');
+        this.reset();
+      } catch (err) {
+        showNotice('Error adding course: ' + err.message, false);
+      }
+    });
+
+    document.getElementById('clearBtn').addEventListener('click', function () {
+      document.getElementById('addCourseForm').reset();
+    });
+  </script>
+</body>
+
+</html>
