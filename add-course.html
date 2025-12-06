@@ -187,6 +187,36 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 
   <script>
+    // Auth check: require active session (5 minutes of inactivity allowed)
+    function _getAuth() {
+      try { const raw = sessionStorage.getItem('auth'); return raw ? JSON.parse(raw) : null; } catch (e) { return null; }
+    }
+    function _isAuthenticated() {
+      const a = _getAuth();
+      if (!a) return false;
+      const age = Date.now() - (a.lastActivity || a.issuedAt || 0);
+      return age < 5 * 60 * 1000;
+    }
+    function _touchAuth() {
+      const a = _getAuth();
+      if (!a) return;
+      a.lastActivity = Date.now();
+      try { sessionStorage.setItem('auth', JSON.stringify(a)); } catch (e) { }
+    }
+
+    // If user is not authenticated (or expired), redirect to Index (where login modal is available)
+    if (!_isAuthenticated()) {
+      // optional: add query param to show a message on Index
+      window.location.href = 'Index.html?auth=required';
+    } else {
+      // update lastActivity immediately and while interacting on this page
+      _touchAuth();
+      ['click', 'keydown', 'mousemove', 'touchstart'].forEach(ev => {
+        document.addEventListener(ev, _touchAuth, { passive: true });
+      });
+    }
+
+
     // Firebase config (same as Index.js)
     const firebaseConfig = {
       apiKey: "AIzaSyCGQKCkBDhozfG8bqYObKSCS2sxdZQEJm4",

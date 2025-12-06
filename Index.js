@@ -26,18 +26,81 @@ let courses = [
 // filtered view
 let filteredCourses = [...courses];
 
-// Helper: unique values
+// Helper: unique values (case-insensitive dedupe, preserve first-seen original casing)
 function getUniqueValues(key) {
-    const values = courses.map(c => c[key]).filter(Boolean);
-    return [...new Set(values)].sort();
+    const seen = new Map();
+    courses.forEach(c => {
+        const raw = c[key];
+        if (!raw && raw !== 0) return;
+        const str = String(raw).trim();
+        if (str === '') return;
+        const norm = str.toLowerCase();
+        if (!seen.has(norm)) {
+            // store original-cased string for display, but dedupe by lowercase
+            seen.set(norm, str);
+        }
+    });
+    // return values sorted case-insensitively
+    return Array.from(seen.values()).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
 }
 
-// Populate filter dropdowns
+// --- Auth helpers: session-based auth with 5-minute inactivity expiry ---
+function getAuth() {
+    try {
+        const raw = sessionStorage.getItem('auth');
+        return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+        return null;
+    }
+}
+
+function setAuth(email) {
+    const token = 'demo-token-' + Date.now();
+    const payload = { token, email, issuedAt: Date.now(), lastActivity: Date.now() };
+    try { sessionStorage.setItem('auth', JSON.stringify(payload)); } catch (e) { }
+}
+
+function touchAuth() {
+    const a = getAuth();
+    if (!a) return;
+    a.lastActivity = Date.now();
+    try { sessionStorage.setItem('auth', JSON.stringify(a)); } catch (e) { }
+}
+
+function isAuthenticated() {
+    const a = getAuth();
+    if (!a) return false;
+    const age = Date.now() - (a.lastActivity || a.issuedAt || 0);
+    return age < 5 * 60 * 1000; // 5 minutes in ms
+}
+// expose for other pages if needed
+window.isAuthenticated = isAuthenticated;
+window.getAuth = getAuth;
+window.touchAuth = touchAuth;
+
+// Populate filter dropdowns (clears existing options first to avoid duplicates)
 function populateFilters() {
-    const universities = getUniqueValues('university');
     const universitySelect = document.getElementById('university');
+    const intakeSelect = document.getElementById('intake');
+    const levelSelect = document.getElementById('course-type');
+    const campusSelect = document.getElementById('campus');
+
+    function resetSelect(sel, placeholderText) {
+        if (!sel) return;
+        sel.innerHTML = '';
+        const optAll = document.createElement('option');
+        optAll.value = 'all';
+        optAll.textContent = placeholderText;
+        sel.appendChild(optAll);
+    }
+
+    resetSelect(universitySelect, 'All Universities');
+    resetSelect(intakeSelect, 'All Intakes');
+    resetSelect(levelSelect, 'All Levels');
+    resetSelect(campusSelect, 'All Campuses');
+
+    const universities = getUniqueValues('university');
     if (universitySelect) {
-        // Keep first "all" option, then add others
         universities.forEach(u => {
             const option = document.createElement('option');
             option.value = u.toLowerCase().replace(/\s+/g, '-');
@@ -47,7 +110,6 @@ function populateFilters() {
     }
 
     const intakes = getUniqueValues('intake');
-    const intakeSelect = document.getElementById('intake');
     if (intakeSelect) {
         intakes.forEach(i => {
             const option = document.createElement('option');
@@ -58,7 +120,6 @@ function populateFilters() {
     }
 
     const levels = getUniqueValues('level');
-    const levelSelect = document.getElementById('course-type');
     if (levelSelect) {
         levels.forEach(l => {
             const option = document.createElement('option');
@@ -69,7 +130,6 @@ function populateFilters() {
     }
 
     const campuses = getUniqueValues('campus');
-    const campusSelect = document.getElementById('campus');
     if (campusSelect) {
         campuses.forEach(c => {
             const option = document.createElement('option');

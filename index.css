@@ -212,18 +212,30 @@ header {
 
 .search-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    /* center the heading */
     align-items: center;
     margin-bottom: 1.5rem;
+    position: relative;
+    /* allow absolute positioning of quick-filters */
+    gap: 0.5rem;
 }
 
 .search-header h3 {
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--primary);
+    text-align: center;
+    /* ensure heading text is centered */
+    margin: 0;
 }
 
+/* Keep quick filters visually on the right side without disturbing center heading */
 .quick-filters {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     gap: 0.75rem;
 }
