@@ -811,14 +811,15 @@ function saveCourse(courseId) {
 
 
     // ===== FIREBASE INTEGRATION =====
-    // Firebase Configuration - REPLACE WITH YOUR CONFIG
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
     const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_AUTH_DOMAIN.firebaseapp.com",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_STORAGE_BUCKET.appspot.com",
-        messagingSenderId: "YOUR_SENDER_ID",
-        appId: "YOUR_APP_ID"
+        apiKey: "AIzaSyCGQKCkBDhozfG8bqYObKSCS2sxdZQEJm4",
+        authDomain: "ukvi-info.firebaseapp.com",
+        projectId: "ukvi-info",
+        storageBucket: "ukvi-info.firebasestorage.app",
+        messagingSenderId: "40936408296",
+        appId: "1:40936408296:web:661bb619ed6bc75437355d",
+        measurementId: "G-N021HN10HT"
     };
 
     // Initialize Firebase
