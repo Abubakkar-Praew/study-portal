@@ -22,7 +22,7 @@ export default async function AdminPage() {
       </form>
 
       <ul className="mt-6 grid gap-2">
-        {countries?.map((c) => (
+        {countries?.map((c: any) => (
           <li key={c.id} className="border rounded-lg p-3">
             {c.name}
           </li>
