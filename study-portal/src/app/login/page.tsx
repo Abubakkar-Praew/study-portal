@@ -1,10 +1,10 @@
 export default function LoginPage() {
   return (
-    <div className="max-w-md mx-auto p-6">
+    <main className="max-w-md mx-auto p-6">
       <h1 className="text-3xl font-bold">Login</h1>
       <p className="mt-2 text-gray-600">
-        Next step: add Student / Agent / Admin authentication.
+        Next step: Student / Agent / Admin authentication.
       </p>
-    </div>
+    </main>
   );
 }
