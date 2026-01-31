@@ -1,32 +1,33 @@
-export default function AdminPage() {
+import { supabaseServer } from "@/lib/supabase/server";
+
+export default async function AdminPage() {
+  const supabase = supabaseServer();
+  const { data: countries } = await supabase.from("countries").select("*").order("name");
+
   return (
-    <main className="max-w-5xl mx-auto p-6">
+    <main className="max-w-4xl mx-auto p-6">
       <h1 className="text-3xl font-bold">Admin Panel</h1>
-      <p className="mt-2 text-gray-600">
-        Manage Countries, Embassies, Universities, Courses, Intakes, Deadlines
-      </p>
+      <p className="text-gray-600 mt-2">Manage Countries (first CRUD)</p>
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-2">
-        <div className="rounded-xl border p-4">
-          <h2 className="text-xl font-semibold">Countries</h2>
-          <p className="text-gray-600">UK, Turkey, Cyprus, Germany, Italy, UAE (Dubai)</p>
-        </div>
+      <form action="/admin/add-country" method="post" className="mt-6 flex gap-2">
+        <input
+          name="name"
+          className="border rounded-lg p-2 flex-1"
+          placeholder="Add country (e.g., UK)"
+          required
+        />
+        <button className="border rounded-lg px-4 py-2 font-semibold" type="submit">
+          Add
+        </button>
+      </form>
 
-        <div className="rounded-xl border p-4">
-          <h2 className="text-xl font-semibold">Embassies</h2>
-          <p className="text-gray-600">Address, Phone, Email, Website, Requirements</p>
-        </div>
-
-        <div className="rounded-xl border p-4">
-          <h2 className="text-xl font-semibold">Universities</h2>
-          <p className="text-gray-600">Name, City, Website, Description</p>
-        </div>
-
-        <div className="rounded-xl border p-4">
-          <h2 className="text-xl font-semibold">Courses</h2>
-          <p className="text-gray-600">Name, Link, Fees, Intake, Deadline</p>
-        </div>
-      </div>
+      <ul className="mt-6 grid gap-2">
+        {countries?.map((c) => (
+          <li key={c.id} className="border rounded-lg p-3">
+            {c.name}
+          </li>
+        ))}
+      </ul>
     </main>
   );
 }
