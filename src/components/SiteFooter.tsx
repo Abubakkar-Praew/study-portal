@@ -28,9 +28,9 @@ export default function SiteFooter() {
         <div>
           <h4 className="text-sm font-semibold" style={{ color: '#1F2937' }}>Contact</h4>
           <ul className="mt-3 space-y-2 text-sm" style={{ color: '#6B7280' }}>
-            <li>support@studyportal.com</li>
-            <li>+92 300 0000000</li>
-            <li>Your City, Pakistan</li>
+            <li>abubakkarpraew@gmail.com</li>
+            <li>+92 347 4765174</li>
+            <li>Mardan Pakistan</li>
           </ul>
         </div>
       </div>

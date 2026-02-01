@@ -64,7 +64,7 @@ export default function SiteHeader() {
           <div className="flex items-center gap-4">
             <span>Ask Questions</span>
             <span className="h-4 w-px" style={{ backgroundColor: '#BFDBFE' }} />
-            <span>+92 300 0000000</span>
+            <span>+92 347 474765174</span>
             <span className="h-4 w-px" style={{ backgroundColor: '#BFDBFE' }} />
             <span>WhatsApp available</span>
           </div>
