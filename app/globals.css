@@ -1,0 +1,22 @@
+@import 'tailwindcss';
+
+:root {
+  color-scheme: light;  /* Primary Colors */
+  --primary-blue: #3B82F6;
+  --light-blue: #E8F1FF;
+  --off-white: #F9FAFB;
+  --text-dark: #1F2937;
+  --muted-gray: #6B7280;
+  --accent: #F59E0B;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
