@@ -84,8 +84,8 @@ export default function SiteHeader() {
         </Link>
 
         <nav className="hidden items-center gap-6 text-sm md:flex">
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             className={`rounded-lg px-3 py-2 transition ${isActive('/') ? 'font-semibold' : ''}`}
             style={{
               color: isActive('/') ? '#FFFFFF' : '#1F2937',
@@ -96,8 +96,8 @@ export default function SiteHeader() {
           >
             Home
           </Link>
-          <Link 
-            href="/about" 
+          <Link
+            href="/about"
             className={`rounded-lg px-3 py-2 transition ${isActive('/about') ? 'font-semibold' : ''}`}
             style={{
               color: isActive('/about') ? '#FFFFFF' : '#1F2937',
@@ -124,9 +124,9 @@ export default function SiteHeader() {
               <div className="absolute left-0 mt-0 w-64 overflow-hidden rounded-2xl border bg-white shadow-sm" style={{ borderColor: '#E5E7EB' }}>
                 <div className="px-4 py-3 text-xs" style={{ color: '#6B7280' }}>Services</div>
                 {serviceMenu.map((i) => (
-                  <Link 
-                    key={i.href} 
-                    href={i.href} 
+                  <Link
+                    key={i.href}
+                    href={i.href}
                     className={`block px-4 py-3 text-sm transition ${isActive(i.href) ? 'font-semibold' : ''}`}
                     style={{
                       color: isActive(i.href) ? '#FFFFFF' : '#1F2937',
@@ -178,8 +178,8 @@ export default function SiteHeader() {
             )}
           </div>
 
-          <Link 
-            href="/contact" 
+          <Link
+            href="/contact"
             className={`rounded-lg px-3 py-2 transition ${isActive('/contact') ? 'font-semibold' : ''}`}
             style={{
               color: isActive('/contact') ? '#FFFFFF' : '#1F2937',
@@ -214,32 +214,32 @@ export default function SiteHeader() {
         <div className="border-t bg-white md:hidden">
           <div className="mx-auto max-w-6xl px-4 py-3">
             <div className="flex flex-col gap-2 text-sm">
-              <Link 
-                href="/" 
+              <Link
+                href="/"
                 className={`rounded-xl px-3 py-2 transition ${isActive('/') ? 'bg-blue-100 text-blue-900 font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
               >
                 Home
               </Link>
-              <Link 
-                href="/about" 
+              <Link
+                href="/about"
                 className={`rounded-xl px-3 py-2 transition ${isActive('/about') ? 'bg-blue-100 text-blue-900 font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
               >
                 About
               </Link>
-              <Link 
-                href="/services" 
+              <Link
+                href="/services"
                 className={`rounded-xl px-3 py-2 transition ${isActive('/services') ? 'bg-blue-100 text-blue-900 font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
               >
                 Our Services
               </Link>
-              <Link 
-                href="/destinations" 
+              <Link
+                href="/destinations"
                 className={`rounded-xl px-3 py-2 transition ${isActive('/destinations') ? 'bg-blue-100 text-blue-900 font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
               >
                 Study Destinations
               </Link>
-              <Link 
-                href="/contact" 
+              <Link
+                href="/contact"
                 className={`rounded-xl px-3 py-2 transition ${isActive('/contact') ? 'bg-blue-100 text-blue-900 font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
               >
                 Contact
