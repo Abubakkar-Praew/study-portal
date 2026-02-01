@@ -51,7 +51,7 @@ export default function RegisterPage() {
       // Here you would make an actual API call
       console.log("Register attempt:", formData);
       alert("Registration successful! (Demo mode - implement real auth)");
-      
+
       // Redirect to login
       // router.push("/login");
     } catch (err) {

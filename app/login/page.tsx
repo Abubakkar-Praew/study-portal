@@ -35,7 +35,7 @@ export default function LoginPage() {
       // Here you would make an actual API call
       console.log("Login attempt:", { email, password });
       alert("Login successful! (Demo mode - implement real auth)");
-      
+
       // Redirect to dashboard
       // router.push("/dashboard");
     } catch (err) {
