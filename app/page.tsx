@@ -24,11 +24,11 @@ export default function HomePage() {
 
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
-                href="/apply"
+                href="/login"
                 className="rounded-xl px-5 py-3 text-sm font-medium text-white hover:opacity-90"
-                style={{ backgroundColor: '#F59E0B' }}
+                style={{ backgroundColor: '#3B82F6' }}
               >
-                Apply Now
+                Account
               </Link>
               <Link
                 href="/destinations"
@@ -165,10 +165,10 @@ export default function HomePage() {
             <p className="mt-2 text-white/80">Apply now and get a free document checklist.</p>
           </div>
           <Link
-            href="/apply"
+            href="/login"
             className="rounded-xl bg-white px-5 py-3 text-sm font-medium text-black hover:opacity-90"
           >
-            Apply Now
+            Account
           </Link>
         </div>
       </section>

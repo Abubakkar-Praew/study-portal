@@ -12,9 +12,9 @@ export default function ContactPage() {
         <div className="rounded-2xl border bg-white p-6 shadow-sm">
           <h2 className="text-lg font-semibold">Reach us</h2>
           <ul className="mt-3 space-y-2 text-sm text-gray-700">
-            <li>Email: support@studyportal.com</li>
-            <li>Phone: +92 300 0000000</li>
-            <li>Location: Your City, Pakistan</li>
+            <li>Email: abubakkarpraew@gmail.com</li>
+            <li>Phone: +92 347 4765174</li>
+            <li>Location: Mardan Pakistan</li>
           </ul>
         </div>
 

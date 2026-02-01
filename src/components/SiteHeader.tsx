@@ -18,6 +18,7 @@ export default function SiteHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [svcOpen, setSvcOpen] = useState(false);
   const [destOpen, setDestOpen] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
   const svcTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const destTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -50,6 +51,7 @@ export default function SiteHeader() {
       if (!wrapperRef.current.contains(e.target as Node)) {
         setSvcOpen(false);
         setDestOpen(false);
+        setAccountOpen(false);
       }
     };
     window.addEventListener("click", onClick);
@@ -64,7 +66,7 @@ export default function SiteHeader() {
           <div className="flex items-center gap-4">
             <span>Ask Questions</span>
             <span className="h-4 w-px" style={{ backgroundColor: '#BFDBFE' }} />
-            <span>+92 347 474765174</span>
+            <span>+92 347 4765174</span>
             <span className="h-4 w-px" style={{ backgroundColor: '#BFDBFE' }} />
             <span>WhatsApp available</span>
           </div>
@@ -193,12 +195,24 @@ export default function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link
-            href="/apply"
-            className="hidden rounded-xl bg-black px-4 py-2 text-sm font-medium text-white hover:opacity-90 md:inline-flex"
-          >
-            Apply Now
-          </Link>
+          {/* Account dropdown for desktop */}
+          <div className="relative hidden md:block">
+            <button
+              className="rounded-xl px-4 py-2 text-sm font-medium"
+              style={{ backgroundColor: accountOpen ? '#3B82F6' : 'transparent', color: accountOpen ? '#FFFFFF' : '#1F2937' }}
+              onClick={() => setAccountOpen((v) => !v)}
+              aria-expanded={accountOpen}
+            >
+              Account ▾
+            </button>
+            {accountOpen && (
+              <div className="absolute right-0 mt-2 w-40 rounded-2xl border bg-white shadow-sm" style={{ borderColor: '#E5E7EB' }}>
+                <Link href="/login" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Login</Link>
+                <Link href="/register" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Sign Up</Link>
+              </div>
+            )}
+          </div>
+
           <button
             className="inline-flex items-center justify-center rounded-xl border px-3 py-2 text-sm hover:bg-gray-50 md:hidden"
             onClick={() => setMobileOpen((v) => !v)}
@@ -244,7 +258,8 @@ export default function SiteHeader() {
               >
                 Contact
               </Link>
-              <Link href="/apply" className="rounded-xl bg-black px-3 py-2 text-white hover:opacity-90 transition">Apply Now</Link>
+              <Link href="/login" className="rounded-xl px-3 py-2 text-gray-700 hover:bg-gray-100 transition">Login</Link>
+              <Link href="/register" className="rounded-xl bg-black px-3 py-2 text-white hover:opacity-90 transition">Sign Up</Link>
             </div>
           </div>
         </div>
