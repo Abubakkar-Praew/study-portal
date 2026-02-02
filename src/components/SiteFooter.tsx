@@ -1,45 +1,51 @@
+"use client";
+
 import Link from "next/link";
 
 export default function SiteFooter() {
   return (
-    <footer className="bg-white">
-      <div className="border-t-2 border-primary bg-gradient-to-b from-light-blue to-lighter-blue">
+    <footer>
+      {/* Main footer section with same color as header */}
+      <div style={{ backgroundColor: '#E8F1FF', color: '#1F2937' }} className="border-t-2 border-primary">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 md:grid-cols-4">
           <div className="md:col-span-2">
             <div className="flex items-center gap-3">
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-blue-600 text-lg font-bold text-white">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-lg font-bold text-white" style={{ backgroundColor: '#3B82F6' }}>
                 SP
               </span>
-              <span className="text-lg font-bold text-text-dark">Study Portal</span>
+              <div>
+                <span className="text-lg font-bold" style={{ color: '#1F2937' }}>Study Portal</span>
+                <p className="text-xs" style={{ color: '#6B7280' }}>Study Abroad Simplified</p>
+              </div>
             </div>
-            <p className="mt-4 max-w-md text-sm leading-relaxed text-text-gray">
+            <p className="mt-4 max-w-md text-sm leading-relaxed" style={{ color: '#6B7280' }}>
               Study abroad guidance with counselling, admissions, and visa support.
             </p>
           </div>
 
           <div>
-            <h4 className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-sm font-bold text-transparent uppercase tracking-wide">Quick Links</h4>
-            <ul className="mt-4 space-y-3 text-sm text-text-gray">
-              <li><Link className="border-l-2 border-l-transparent pl-2 transition hover:border-l-primary hover:text-primary hover:font-medium" href="/about">About Us</Link></li>
-              <li><Link className="border-l-2 border-l-transparent pl-2 transition hover:border-l-primary hover:text-primary hover:font-medium" href="/services">Services</Link></li>
-              <li><Link className="border-l-2 border-l-transparent pl-2 transition hover:border-l-primary hover:text-primary hover:font-medium" href="/destinations">Destinations</Link></li>
-              <li><Link className="border-l-2 border-l-transparent pl-2 transition hover:border-l-primary hover:text-primary hover:font-medium" href="/why-us">Why Us</Link></li>
+            <h4 style={{ color: '#3B82F6' }} className="text-sm font-bold uppercase tracking-wide">🔗 Quick Links</h4>
+            <ul className="mt-4 space-y-3 text-sm" style={{ color: '#6B7280' }}>
+              <li><Link className="border-l-4 border-l-transparent pl-3 transition hover:font-medium" style={{ color: '#6B7280' }} onMouseEnter={(e) => { e.currentTarget.style.color = '#3B82F6'; e.currentTarget.style.borderLeftColor = '#3B82F6'; }} onMouseLeave={(e) => { e.currentTarget.style.color = '#6B7280'; e.currentTarget.style.borderLeftColor = 'transparent'; }} href="/about">About Us</Link></li>
+              <li><Link className="border-l-4 border-l-transparent pl-3 transition hover:font-medium" style={{ color: '#6B7280' }} onMouseEnter={(e) => { e.currentTarget.style.color = '#3B82F6'; e.currentTarget.style.borderLeftColor = '#3B82F6'; }} onMouseLeave={(e) => { e.currentTarget.style.color = '#6B7280'; e.currentTarget.style.borderLeftColor = 'transparent'; }} href="/services">Services</Link></li>
+              <li><Link className="border-l-4 border-l-transparent pl-3 transition hover:font-medium" style={{ color: '#6B7280' }} onMouseEnter={(e) => { e.currentTarget.style.color = '#3B82F6'; e.currentTarget.style.borderLeftColor = '#3B82F6'; }} onMouseLeave={(e) => { e.currentTarget.style.color = '#6B7280'; e.currentTarget.style.borderLeftColor = 'transparent'; }} href="/destinations">Destinations</Link></li>
+              <li><Link className="border-l-4 border-l-transparent pl-3 transition hover:font-medium" style={{ color: '#6B7280' }} onMouseEnter={(e) => { e.currentTarget.style.color = '#3B82F6'; e.currentTarget.style.borderLeftColor = '#3B82F6'; }} onMouseLeave={(e) => { e.currentTarget.style.color = '#6B7280'; e.currentTarget.style.borderLeftColor = 'transparent'; }} href="/why-us">Why Us</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-sm font-bold text-transparent uppercase tracking-wide">Contact Info</h4>
-            <ul className="mt-4 space-y-3 text-sm text-text-gray">
+            <h4 style={{ color: '#3B82F6' }} className="text-sm font-bold uppercase tracking-wide">📞 Contact Info</h4>
+            <ul className="mt-4 space-y-3 text-sm" style={{ color: '#6B7280' }}>
               <li className="flex items-center gap-2">
-                <span className="text-primary">📧</span>
-                <span>abubakkarpraew@gmail.com</span>
+                <span className="text-lg">📧</span>
+                <a href="mailto:abubakkarpraew@gmail.com" style={{ color: '#6B7280' }} onMouseEnter={(e) => (e.currentTarget.style.color = '#3B82F6')} onMouseLeave={(e) => (e.currentTarget.style.color = '#6B7280')} className="transition">abubakkarpraew@gmail.com</a>
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-primary">📱</span>
-                <span>+92 347 4765174</span>
+                <span className="text-lg">📱</span>
+                <a href="tel:+923474765174" style={{ color: '#6B7280' }} onMouseEnter={(e) => (e.currentTarget.style.color = '#3B82F6')} onMouseLeave={(e) => (e.currentTarget.style.color = '#6B7280')} className="transition">+92 347 4765174</a>
               </li>
               <li className="flex items-center gap-2">
-                <span className="text-primary">📍</span>
+                <span className="text-lg">📍</span>
                 <span>Mardan, Pakistan</span>
               </li>
             </ul>
@@ -47,12 +53,16 @@ export default function SiteFooter() {
         </div>
       </div>
 
-      <div className="border-t-2 border-primary bg-gradient-to-r from-primary to-blue-600">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-4 py-6 text-sm text-white md:flex-row">
-          <span>© {new Date().getFullYear()} Study Portal. All rights reserved.</span>
-          <div className="flex gap-6 text-xs">
-            <Link href="#" className="transition hover:opacity-80">Privacy Policy</Link>
-            <Link href="#" className="transition hover:opacity-80">Terms of Service</Link>
+      {/* Bottom bar with same color as header top info bar */}
+      <div style={{ backgroundColor: '#DBEAFE', borderTopColor: '#BFDBFE' }} className="border-t">
+        <div className="mx-auto max-w-6xl px-4 py-6">
+          <div className="flex flex-col items-center justify-between gap-4 text-sm md:flex-row" style={{ color: '#6B7280' }}>
+            <span className="font-medium">© {new Date().getFullYear()} Study Portal. All rights reserved.</span>
+            <div className="flex gap-6 text-xs font-medium">
+              <Link href="#" style={{ color: '#6B7280' }} onMouseEnter={(e) => (e.currentTarget.style.color = '#3B82F6')} onMouseLeave={(e) => (e.currentTarget.style.color = '#6B7280')} className="transition">Privacy Policy</Link>
+              <Link href="#" style={{ color: '#6B7280' }} onMouseEnter={(e) => (e.currentTarget.style.color = '#3B82F6')} onMouseLeave={(e) => (e.currentTarget.style.color = '#6B7280')} className="transition">Terms of Service</Link>
+              <Link href="#" style={{ color: '#6B7280' }} onMouseEnter={(e) => (e.currentTarget.style.color = '#3B82F6')} onMouseLeave={(e) => (e.currentTarget.style.color = '#6B7280')} className="transition">Contact Support</Link>
+            </div>
           </div>
         </div>
       </div>
