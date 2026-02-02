@@ -211,8 +211,8 @@ export default function LoginPage() {
               {forgotMessage && (
                 <div
                   className={`mb-4 p-3 rounded-lg text-sm ${forgotMessage.includes("sent")
-                      ? "text-green-700"
-                      : "text-red-700"
+                    ? "text-green-700"
+                    : "text-red-700"
                     }`}
                   style={{
                     backgroundColor:
