@@ -29,12 +29,12 @@ export default function SiteHeader() {
     // Extract pathname and hash from href
     const hrefPath = href.split('#')[0];
     const hrefHash = href.split('#')[1];
-    
+
     // If href has no hash, check exact pathname match
     if (!hrefHash) {
       return pathname === hrefPath;
     }
-    
+
     // If href has hash, we check pathname match but not based on active state from URL
     // This prevents "Services" from being marked active when "Why Us" is clicked
     return false;
