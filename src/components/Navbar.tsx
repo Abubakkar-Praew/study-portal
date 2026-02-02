@@ -45,7 +45,7 @@ export default function Navbar() {
               {l.label}
             </Link>
           ))}
-          
+
           {/* University Deadline Dropdown */}
           <div className="relative">
             <button
