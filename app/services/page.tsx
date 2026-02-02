@@ -19,12 +19,13 @@ export default function ServicesPage() {
         ))}
       </section>
 
-      <section id="why-us" className="rounded-2xl border bg-gray-50 p-6">
-        <h2 className="text-lg font-semibold">Why choose us</h2>
+      <section className="rounded-2xl border bg-gray-50 p-6">
+        <h2 className="text-lg font-semibold">How We Help</h2>
         <ul className="mt-3 space-y-2 text-sm text-gray-700">
-          <li>Clear timelines and checklists for every destination.</li>
-          <li>One-on-one guidance for documents and applications.</li>
-          <li>Dedicated support through visa and pre-departure steps.</li>
+          <li>✓ Comprehensive course and university recommendations</li>
+          <li>✓ Professional application and SOP assistance</li>
+          <li>✓ Standardized test preparation and guidance</li>
+          <li>✓ End-to-end visa support and documentation</li>
         </ul>
       </section>
     </div>

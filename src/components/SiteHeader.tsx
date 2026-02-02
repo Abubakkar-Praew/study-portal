@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { destinations } from "@/lib/site-data";
 
 const serviceMenu = [
-  { href: "/services#why-us", label: "Why Us" },
+  { href: "/why-us", label: "Why Us" },
   { href: "/services", label: "Services" },
   { href: "/classes", label: "Online / Physical Classes" },
   { href: "/immigration/uk", label: "UK Immigration" },
@@ -25,7 +25,20 @@ export default function SiteHeader() {
   const deadlineTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
 
-  const isActive = (href: string) => pathname === href;
+  const isActive = (href: string) => {
+    // Extract pathname and hash from href
+    const hrefPath = href.split('#')[0];
+    const hrefHash = href.split('#')[1];
+    
+    // If href has no hash, check exact pathname match
+    if (!hrefHash) {
+      return pathname === hrefPath;
+    }
+    
+    // If href has hash, we check pathname match but not based on active state from URL
+    // This prevents "Services" from being marked active when "Why Us" is clicked
+    return false;
+  };
 
   const handleSvcMouseLeave = () => {
     svcTimeoutRef.current = setTimeout(() => setSvcOpen(false), 300);
