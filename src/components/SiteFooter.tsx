@@ -69,8 +69,8 @@ export default function SiteFooter() {
 
       {/* Bottom bar with same color as header top info bar */}
       <div style={{ backgroundColor: '#DBEAFE', borderTopColor: '#BFDBFE' }} className="border-t">
-        <div className="mx-auto max-w-6xl px-4 py-6">
-          <div className="flex flex-col items-center justify-between gap-4 text-sm md:flex-row" style={{ color: '#6B7280' }}>
+        <div className="mx-auto max-w-6xl px-4 py-3">
+          <div className="flex flex-col items-center justify-between gap-2 text-sm md:flex-row" style={{ color: '#6B7280' }}>
             <span className="font-medium">© {new Date().getFullYear()} Study Portal. All rights reserved.</span>
             <div className="flex gap-6 text-xs font-medium">
               <Link href="#" style={{ color: '#6B7280' }} onMouseEnter={(e) => (e.currentTarget.style.color = '#3B82F6')} onMouseLeave={(e) => (e.currentTarget.style.color = '#6B7280')} className="transition">Privacy Policy</Link>

@@ -1,18 +1,31 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("abubakkarPraew@gmail.com");
-  const [password, setPassword] = useState("956615731");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [forgotEmail, setForgotEmail] = useState("");
   const [forgotMessage, setForgotMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const revealTimeoutRef = useRef<number | null>(null);
+
+  const handleRevealPassword = () => {
+    setShowPassword(true);
+    if (revealTimeoutRef.current) {
+      window.clearTimeout(revealTimeoutRef.current);
+    }
+    revealTimeoutRef.current = window.setTimeout(() => {
+      setShowPassword(false);
+      revealTimeoutRef.current = null;
+    }, 5000);
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,7 +57,7 @@ export default function LoginPage() {
       const DEMO_ADMIN_EMAIL = "abubakkarPraew@gmail.com";
       const DEMO_PASSWORD = "956615731";
 
-      if (email === DEMO_ADMIN_EMAIL && password === DEMO_PASSWORD) {
+      if (email.toLowerCase() === DEMO_ADMIN_EMAIL.toLowerCase() && password === DEMO_PASSWORD) {
         // Set demo mode cookie
         document.cookie = "demo_admin=true; path=/; max-age=86400";
 
@@ -53,7 +66,7 @@ export default function LoginPage() {
         await new Promise((resolve) => setTimeout(resolve, 100));
         router.push("/admin");
       } else {
-        setError("Invalid email or password. Use the demo admin credentials.");
+        setError("Invalid email or password.");
         setLoading(false);
       }
     } catch (err) {
@@ -115,11 +128,6 @@ export default function LoginPage() {
               Sign in to your account to continue
             </p>
 
-            <div className="mt-4 p-3 rounded-lg text-xs bg-blue-50 border border-blue-200 space-y-2">
-              <p className="font-semibold text-blue-900">Demo Account</p>
-              <p className="text-blue-800"><strong>Admin:</strong> abubakkarPraew@gmail.com</p>
-              <p className="text-blue-800"><strong>Password:</strong> 956615731</p>
-            </div>
           </div>
 
           {error && (
@@ -131,7 +139,7 @@ export default function LoginPage() {
             </div>
           )}
 
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-4" autoComplete="off">
             <div>
               <label
                 htmlFor="email"
@@ -145,6 +153,7 @@ export default function LoginPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                autoComplete="off"
                 placeholder="your@email.com"
                 className="w-full px-4 py-2 border border-blue-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 style={{
@@ -162,18 +171,43 @@ export default function LoginPage() {
               >
                 Password
               </label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2"
-                style={{
-                  borderColor: "#BFDBFE",
-                  color: "#1F2937",
-                }}
-              />
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="off"
+                  placeholder="••••••••"
+                  className="w-full px-4 py-2 pr-11 border rounded-lg focus:outline-none focus:ring-2"
+                  style={{
+                    borderColor: "#BFDBFE",
+                    color: "#1F2937",
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={handleRevealPassword}
+                  aria-label="Show password for 5 seconds"
+                  className="absolute right-3 inset-y-0 flex items-center text-gray-500 hover:text-gray-700"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M12 5C6.5 5 2.1 8.5 1 12c1.1 3.5 5.5 7 11 7s9.9-3.5 11-7c-1.1-3.5-5.5-7-11-7Z"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                    />
+                    <circle cx="12" cy="12" r="3.5" stroke="currentColor" strokeWidth="1.5" />
+                  </svg>
+                </button>
+              </div>
             </div>
 
             <div className="flex items-center justify-between text-sm">
@@ -298,3 +332,6 @@ export default function LoginPage() {
     </div>
   );
 }
+
+
+

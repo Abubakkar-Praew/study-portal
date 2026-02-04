@@ -15,7 +15,6 @@ const serviceMenu = [
 
 export default function SiteHeader() {
   const pathname = usePathname();
-  const [isDemoAdmin, setIsDemoAdmin] = useState<boolean>(() => typeof document !== 'undefined' ? document.cookie.includes('demo_admin=true') : false);
   const [hideForDemo, setHideForDemo] = useState<boolean>(() => typeof document !== 'undefined' ? document.cookie.includes('demo_admin=true') : false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [svcOpen, setSvcOpen] = useState(false);
@@ -88,42 +87,11 @@ export default function SiteHeader() {
     return () => window.removeEventListener("click", onClick);
   }, []);
 
-  useEffect(() => {
-    try {
-      const cookie = typeof document !== 'undefined' ? document.cookie : '';
-      setIsDemoAdmin(cookie.includes('demo_admin=true'));
-    } catch (e) {
-      setIsDemoAdmin(false);
-    }
-  }, [pathname]);
-
   // If hideForDemo is true, do not render header
   if (hideForDemo) return null;
 
   return (
-    <div style={{ backgroundColor: '#E8F1FF', color: '#1F2937' }} className="sticky top-0 z-50" ref={wrapperRef}>
-      {/* Top info bar */}
-      <div style={{ backgroundColor: '#DDEBF8', borderBottomColor: '#C7E0FF' }} className="hidden border-b md:block">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-2 text-xs" style={{ color: '#6B7280' }}>
-          <div className="flex items-center gap-3">
-            <span>Ask Questions</span>
-            <span className="h-4 w-px" style={{ backgroundColor: '#BFDBFE' }} />
-            <span>+92 347 4765174</span>
-            <span className="h-4 w-px" style={{ backgroundColor: '#BFDBFE' }} />
-            <span>WhatsApp available</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="rounded-full border px-3 py-1" style={{ borderColor: '#BFDBFE', color: '#6B7280' }}>English</span>
-          </div>
-          {/* Debug badge (temporary) */}
-          <div className="ml-3 hidden text-xs md:block">
-            <span className="rounded px-2 py-1 text-white" style={{ backgroundColor: isDemoAdmin ? '#ef4444' : '#6b7280' }}>
-              {isDemoAdmin ? 'demo_admin=true' : pathname}
-            </span>
-          </div>
-        </div>
-      </div>
-
+    <div style={{ backgroundColor: '#E8F1FF', color: '#1F2937' }} className="fixed inset-x-0 top-0 z-50" ref={wrapperRef}>
       {/* Main nav */}
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-4">
         <Link href="/" className="flex items-center gap-2 font-semibold" style={{ color: '#1F2937' }}>
