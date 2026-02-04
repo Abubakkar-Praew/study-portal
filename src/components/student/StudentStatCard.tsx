@@ -41,7 +41,7 @@ export default function StudentStatCard({
   value,
   hint,
   color = "blue",
-}: StudentStatCardProps): JSX.Element {
+}: StudentStatCardProps) {
   const styles = COLOR_STYLES[color] ?? COLOR_STYLES.blue;
 
   return (
