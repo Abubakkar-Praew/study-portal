@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
-export default function StudentDashboardPage() {
+export default function StudentProfilePage() {
   redirect("/admin");
 }

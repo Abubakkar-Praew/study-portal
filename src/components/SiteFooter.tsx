@@ -1,8 +1,22 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 export default function SiteFooter() {
+  const [hideForDemo, setHideForDemo] = useState<boolean>(() => typeof document !== 'undefined' ? document.cookie.includes('demo_admin=true') : false);
+
+  useEffect(() => {
+    try {
+      const cookie = typeof document !== 'undefined' ? document.cookie : '';
+      setHideForDemo(cookie.includes('demo_admin=true'));
+    } catch (e) {
+      setHideForDemo(false);
+    }
+  }, []);
+
+  if (hideForDemo) return null;
+
   return (
     <footer>
       {/* Main footer section with same color as header */}

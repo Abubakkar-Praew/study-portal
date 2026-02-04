@@ -20,7 +20,6 @@ export default function Navbar() {
     () => [
       { href: "/login", label: "Login" },
       { href: "/register", label: "Register" },
-      { href: "/dashboard", label: "Dashboard" },
     ],
     []
   );

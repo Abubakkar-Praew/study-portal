@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const router = useRouter();
+  const [email, setEmail] = useState("abubakkarPraew@gmail.com");
+  const [password, setPassword] = useState("956615731");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
@@ -18,32 +20,44 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      // Simulate login - replace with actual API call
+      // Validate inputs
       if (!email || !password) {
         setError("Please fill in all fields");
+        setLoading(false);
         return;
       }
 
       // Mock validation
       if (!email.includes("@")) {
         setError("Please enter a valid email");
+        setLoading(false);
         return;
       }
 
       if (password.length < 6) {
         setError("Password must be at least 6 characters");
+        setLoading(false);
         return;
       }
 
-      // Here you would make an actual API call
-      console.log("Login attempt:", { email, password });
-      alert("Login successful! (Demo mode - implement real auth)");
+      // Check demo admin credentials
+      const DEMO_ADMIN_EMAIL = "abubakkarPraew@gmail.com";
+      const DEMO_PASSWORD = "956615731";
 
-      // Redirect to dashboard
-      // router.push("/dashboard");
+      if (email === DEMO_ADMIN_EMAIL && password === DEMO_PASSWORD) {
+        // Set demo mode cookie
+        document.cookie = "demo_admin=true; path=/; max-age=86400";
+
+        // Redirect to admin
+        console.log("Login successful - Admin login");
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        router.push("/admin");
+      } else {
+        setError("Invalid email or password. Use the demo admin credentials.");
+        setLoading(false);
+      }
     } catch (err) {
       setError("Login failed. Please try again.");
-    } finally {
       setLoading(false);
     }
   };
@@ -100,6 +114,12 @@ export default function LoginPage() {
             <p className="mt-2 text-sm" style={{ color: "#6B7280" }}>
               Sign in to your account to continue
             </p>
+
+            <div className="mt-4 p-3 rounded-lg text-xs bg-blue-50 border border-blue-200 space-y-2">
+              <p className="font-semibold text-blue-900">Demo Account</p>
+              <p className="text-blue-800"><strong>Admin:</strong> abubakkarPraew@gmail.com</p>
+              <p className="text-blue-800"><strong>Password:</strong> 956615731</p>
+            </div>
           </div>
 
           {error && (
