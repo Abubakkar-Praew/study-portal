@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { destinations, services, stats, testimonials } from "@/lib/site-data";
 import ConsultationForm from "@/components/ConsultationForm";
+import AnnouncementModal from "@/components/AnnouncementModal";
 
 export default function HomePage() {
   return (
     <div className="space-y-14">
+      <AnnouncementModal />
       {/* HERO + LEAD FORM */}
       <section className="rounded-3xl border p-6 shadow-sm md:p-10" style={{ backgroundColor: '#FFFFFF', borderColor: '#E5E7EB' }}>
         <div className="grid gap-8 lg:grid-cols-12 lg:items-start">

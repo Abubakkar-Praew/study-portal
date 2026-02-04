@@ -226,15 +226,15 @@ export default function SiteHeader() {
                   {destinations.map((d) => (
                     <Link
                       key={`deadline-${d.slug}`}
-                      href={`/destinations/${d.slug}`}
-                      className={`rounded-xl px-3 py-2 text-sm transition border ${isActive(`/destinations/${d.slug}`) ? 'font-semibold' : ''}`}
+                      href={`/deadlines/${d.slug}`}
+                      className={`rounded-xl px-3 py-2 text-sm transition border ${isActive(`/deadlines/${d.slug}`) ? 'font-semibold' : ''}`}
                       style={{
-                        color: isActive(`/destinations/${d.slug}`) ? '#FFFFFF' : '#1F2937',
-                        backgroundColor: isActive(`/destinations/${d.slug}`) ? '#3B82F6' : 'transparent',
-                        borderColor: isActive(`/destinations/${d.slug}`) ? '#3B82F6' : '#E5E7EB'
+                        color: isActive(`/deadlines/${d.slug}`) ? '#FFFFFF' : '#1F2937',
+                        backgroundColor: isActive(`/deadlines/${d.slug}`) ? '#3B82F6' : 'transparent',
+                        borderColor: isActive(`/deadlines/${d.slug}`) ? '#3B82F6' : '#E5E7EB'
                       }}
-                      onMouseEnter={(e) => !isActive(`/destinations/${d.slug}`) && (e.currentTarget.style.backgroundColor = '#F0F4FF')}
-                      onMouseLeave={(e) => !isActive(`/destinations/${d.slug}`) && (e.currentTarget.style.backgroundColor = 'transparent')}
+                      onMouseEnter={(e) => !isActive(`/deadlines/${d.slug}`) && (e.currentTarget.style.backgroundColor = '#F0F4FF')}
+                      onMouseLeave={(e) => !isActive(`/deadlines/${d.slug}`) && (e.currentTarget.style.backgroundColor = 'transparent')}
                     >
                       {d.name}
                     </Link>
