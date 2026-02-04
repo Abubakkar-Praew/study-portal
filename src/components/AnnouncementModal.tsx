@@ -16,6 +16,19 @@ export default function AnnouncementModal() {
     }
   }, []);
 
+  useEffect(() => {
+    // Disable body scroll when modal is open
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
   if (!isOpen || announcements.length === 0) {
     return null;
   }
@@ -48,7 +61,6 @@ export default function AnnouncementModal() {
       {/* Backdrop */}
       <div
         className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm transition-opacity duration-300"
-        onClick={handleClose}
         style={{ animation: "fadeIn 0.3s ease-out" }}
       />
 
@@ -58,16 +70,25 @@ export default function AnnouncementModal() {
         style={{ animation: "fadeIn 0.3s ease-out" }}
       >
         <div
-          className="pointer-events-auto w-full max-w-2xl rounded-3xl bg-white shadow-2xl overflow-hidden max-h-[85vh] overflow-y-auto"
+          className="pointer-events-auto w-full max-w-2xl rounded-3xl bg-white shadow-2xl overflow-hidden max-h-[85vh] overflow-y-auto relative"
           style={{ animation: "slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)" }}
         >
-          {/* Close Button */}
+          {/* Close Button - Top Right */}
           <button
             onClick={handleClose}
-            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl font-bold z-10 bg-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-gray-100 transition"
+            className="absolute top-6 right-6 z-10 bg-white rounded-full w-12 h-12 flex items-center justify-center hover:bg-gray-100 transition shadow-md hover:shadow-lg group border-2 border-gray-200 hover:border-gray-300"
             aria-label="Close modal"
+            title="Close"
           >
-            ✕
+            <svg
+              className="w-6 h-6 text-gray-600 group-hover:text-gray-800 transition"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              strokeWidth={2.5}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
           </button>
 
           {/* Header with Country Name */}

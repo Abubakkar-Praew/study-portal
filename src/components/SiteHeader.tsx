@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { destinations } from "@/lib/site-data";
+import { destinations, announcements } from "@/lib/site-data";
 
 const serviceMenu = [
   { href: "/why-us", label: "Why Us" },
