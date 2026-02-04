@@ -4,7 +4,7 @@ import { announcements } from "@/lib/site-data";
 export default async function UniversityDetailPage({ params }: { params: Promise<{ id: string }> }) {
   // Await params in Next.js 16
   const { id } = await params;
-  
+
   // Parse the ID to get announcement index and university index
   const parts = id.split("-");
   if (parts.length !== 2) {
