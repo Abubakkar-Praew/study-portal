@@ -15,15 +15,12 @@ const serviceMenu = [
 
 export default function SiteHeader() {
   const pathname = usePathname();
-  const [hideForDemo, setHideForDemo] = useState<boolean>(() => typeof document !== 'undefined' ? document.cookie.includes('demo_admin=true') : false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [svcOpen, setSvcOpen] = useState(false);
   const [destOpen, setDestOpen] = useState(false);
-  const [deadlineOpen, setDeadlineOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   const svcTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const destTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const deadlineTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
 
   const isActive = (href: string) => {
@@ -59,18 +56,6 @@ export default function SiteHeader() {
     if (destTimeoutRef.current) clearTimeout(destTimeoutRef.current);
     setDestOpen(true);
     setSvcOpen(false);
-    setDeadlineOpen(false);
-  };
-
-  const handleDeadlineMouseLeave = () => {
-    deadlineTimeoutRef.current = setTimeout(() => setDeadlineOpen(false), 300);
-  };
-
-  const handleDeadlineMouseEnter = () => {
-    if (deadlineTimeoutRef.current) clearTimeout(deadlineTimeoutRef.current);
-    setDeadlineOpen(true);
-    setSvcOpen(false);
-    setDestOpen(false);
   };
 
   useEffect(() => {
@@ -79,7 +64,6 @@ export default function SiteHeader() {
       if (!wrapperRef.current.contains(e.target as Node)) {
         setSvcOpen(false);
         setDestOpen(false);
-        setDeadlineOpen(false);
         setAccountOpen(false);
       }
     };
@@ -87,8 +71,8 @@ export default function SiteHeader() {
     return () => window.removeEventListener("click", onClick);
   }, []);
 
-  // If hideForDemo is true, do not render header
-  if (hideForDemo) return null;
+  // Hide website header on admin routes
+  if (pathname?.startsWith("/admin")) return null;
 
   return (
     <div style={{ backgroundColor: '#E8F1FF', color: '#1F2937' }} className="fixed inset-x-0 top-0 z-50" ref={wrapperRef}>
@@ -196,42 +180,6 @@ export default function SiteHeader() {
             )}
           </div>
 
-          {/* University Deadline dropdown */}
-          <div className="relative" onMouseEnter={handleDeadlineMouseEnter} onMouseLeave={handleDeadlineMouseLeave}>
-            <button
-              className="rounded-lg px-3 py-2 transition"
-              style={{
-                color: deadlineOpen ? '#FFFFFF' : '#1F2937',
-                backgroundColor: deadlineOpen ? '#3B82F6' : 'transparent'
-              }}
-            >
-              University Deadline ▾
-            </button>
-            {deadlineOpen && (
-              <div className="absolute left-0 mt-0 w-[520px] rounded-2xl border bg-white p-3 shadow-sm" style={{ borderColor: '#E5E7EB' }}>
-                <div className="px-2 pb-2 text-xs" style={{ color: '#6B7280' }}>Deadlines by Country</div>
-                <div className="grid grid-cols-2 gap-2">
-                  {destinations.map((d) => (
-                    <Link
-                      key={`deadline-${d.slug}`}
-                      href={`/deadlines/${d.slug}`}
-                      className={`rounded-xl px-3 py-2 text-sm transition border ${isActive(`/deadlines/${d.slug}`) ? 'font-semibold' : ''}`}
-                      style={{
-                        color: isActive(`/deadlines/${d.slug}`) ? '#FFFFFF' : '#1F2937',
-                        backgroundColor: isActive(`/deadlines/${d.slug}`) ? '#3B82F6' : 'transparent',
-                        borderColor: isActive(`/deadlines/${d.slug}`) ? '#3B82F6' : '#E5E7EB'
-                      }}
-                      onMouseEnter={(e) => !isActive(`/deadlines/${d.slug}`) && (e.currentTarget.style.backgroundColor = '#F0F4FF')}
-                      onMouseLeave={(e) => !isActive(`/deadlines/${d.slug}`) && (e.currentTarget.style.backgroundColor = 'transparent')}
-                    >
-                      {d.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
           <Link
             href="/contact"
             className={`rounded-lg px-3 py-2 transition ${isActive('/contact') ? 'font-semibold' : ''}`}
@@ -305,12 +253,6 @@ export default function SiteHeader() {
                 Study Destinations
               </Link>
               <Link
-                href="/destinations"
-                className={`rounded-xl px-3 py-2 transition ${isActive('/destinations') ? 'bg-blue-100 text-blue-900 font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
-              >
-                University Deadline
-              </Link>
-              <Link
                 href="/contact"
                 className={`rounded-xl px-3 py-2 transition ${isActive('/contact') ? 'bg-blue-100 text-blue-900 font-semibold' : 'text-gray-700 hover:bg-gray-100'}`}
               >
@@ -325,3 +267,5 @@ export default function SiteHeader() {
     </div>
   );
 }
+
+

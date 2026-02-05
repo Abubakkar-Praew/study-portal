@@ -1,21 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 export default function SiteFooter() {
-  const [hideForDemo, setHideForDemo] = useState<boolean>(() => typeof document !== 'undefined' ? document.cookie.includes('demo_admin=true') : false);
+  const pathname = usePathname();
 
-  useEffect(() => {
-    try {
-      const cookie = typeof document !== 'undefined' ? document.cookie : '';
-      setHideForDemo(cookie.includes('demo_admin=true'));
-    } catch (e) {
-      setHideForDemo(false);
-    }
-  }, []);
-
-  if (hideForDemo) return null;
+  if (pathname?.startsWith("/admin")) return null;
 
   return (
     <footer>

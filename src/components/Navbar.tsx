@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { destinations } from "@/lib/site-data";
 
 const links = [
   { href: "/", label: "Home" },
@@ -14,7 +13,6 @@ const links = [
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
-  const [deadlineOpen, setDeadlineOpen] = useState(false);
 
   const accountItems = useMemo(
     () => [
@@ -44,40 +42,6 @@ export default function Navbar() {
               {l.label}
             </Link>
           ))}
-
-          {/* University Deadline Dropdown */}
-          <div className="relative">
-            <button
-              onClick={() => setDeadlineOpen((v) => !v)}
-              className="text-gray-600 hover:text-gray-900 flex items-center gap-1"
-            >
-              University Deadline
-              <span className="text-xs">▼</span>
-            </button>
-
-            {deadlineOpen && (
-              <div
-                className="absolute left-0 mt-2 w-48 rounded-xl border bg-white shadow-sm z-50"
-                onMouseLeave={() => setDeadlineOpen(false)}
-              >
-                <div className="px-4 py-2 text-xs text-gray-500 border-b">
-                  Countries
-                </div>
-                <div className="max-h-64 overflow-y-auto">
-                  {destinations.map((destination) => (
-                    <Link
-                      key={destination.slug}
-                      href={`/destinations/${destination.slug}`}
-                      className="block px-4 py-2.5 text-sm hover:bg-gray-50"
-                      onClick={() => setDeadlineOpen(false)}
-                    >
-                      {destination.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
         </nav>
 
         <div className="flex items-center gap-2">
@@ -87,39 +51,6 @@ export default function Navbar() {
           >
             Search
           </Link>
-
-          {/* Mobile Deadline Menu */}
-          <div className="relative md:hidden">
-            <button
-              onClick={() => setDeadlineOpen((v) => !v)}
-              className="rounded-xl border px-3 py-2 text-sm hover:bg-gray-50"
-            >
-              Deadline ▼
-            </button>
-
-            {deadlineOpen && (
-              <div
-                className="absolute right-0 mt-2 w-40 rounded-xl border bg-white shadow-sm z-50"
-                onMouseLeave={() => setDeadlineOpen(false)}
-              >
-                <div className="px-3 py-2 text-xs text-gray-500 border-b">
-                  Countries
-                </div>
-                <div className="max-h-48 overflow-y-auto">
-                  {destinations.map((destination) => (
-                    <Link
-                      key={destination.slug}
-                      href={`/destinations/${destination.slug}`}
-                      className="block px-3 py-2 text-xs hover:bg-gray-50"
-                      onClick={() => setDeadlineOpen(false)}
-                    >
-                      {destination.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
 
           <div className="relative">
             <button
@@ -167,7 +98,7 @@ export default function Navbar() {
             onClick={() => setOpen((v) => !v)}
             aria-label="Open Menu"
           >
-            ☰
+            Menu
           </button>
         </div>
       </div>

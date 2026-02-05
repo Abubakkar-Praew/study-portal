@@ -26,7 +26,7 @@ export default function CourseForm({
     language_requirements: initial?.language_requirements ?? "",
     entry_requirements: initial?.entry_requirements ?? "",
     description: initial?.description ?? "",
-    status: initial?.status ?? "Active",
+    status: initial?.status ?? "Ac tive",
   });
 
   function update(key: string, value: string) {

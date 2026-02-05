@@ -4,6 +4,7 @@ import Script from "next/script";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import ClientOnly from "@/components/ClientOnly";
+import PageContainer from "@/components/PageContainer";
 
 export const metadata: Metadata = {
   title: "Study Portal",
@@ -17,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Script src="https://cdn.tailwindcss.com" strategy="beforeInteractive" />
         {/* Removed pre-hydration DOM mutation script to avoid hydration mismatch. */}
         <div id="site-header"><ClientOnly fallback={<div />}><SiteHeader /></ClientOnly></div>
-        <main className="mx-auto max-w-6xl px-4 pb-10 pt-24">{children}</main>
+        <PageContainer>{children}</PageContainer>
         <div id="site-footer"><ClientOnly fallback={<div />}><SiteFooter /></ClientOnly></div>
       </body>
     </html>

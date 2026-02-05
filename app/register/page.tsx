@@ -62,9 +62,9 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4" style={{ backgroundColor: "#E8F1FF" }}>
+    <div className="min-h-screen w-full bg-[#F1F5FF] flex items-start justify-center px-4 sm:px-6 pt-12 sm:pt-16 pb-6 m-0">
       <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-lg p-8">
+        <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-4">
               <span
