@@ -220,8 +220,8 @@ export default function CountryCoursesPage() {
       {isModalOpen && (
         <>
           <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm" />
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <div className="w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-2xl">
+          <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-6">
+            <div className="flex w-full max-w-2xl max-h-[90vh] flex-col overflow-hidden rounded-2xl bg-white shadow-2xl">
               <div
                 className="flex items-center justify-between px-6 py-3 text-white"
                 style={{ backgroundColor: "#3B82F6" }}
@@ -240,7 +240,7 @@ export default function CountryCoursesPage() {
                   Close
                 </button>
               </div>
-              <div className="space-y-5 px-6 py-6">
+              <div className="flex-1 space-y-5 overflow-y-auto px-6 py-6">
                 <div className="grid gap-4 md:grid-cols-2">
                   <Field
                     label="Course Title"

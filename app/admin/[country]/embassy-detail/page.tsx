@@ -55,8 +55,8 @@ export default function EmbassyDetailPage() {
       {open && (
         <>
           <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm" />
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <div className="w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-2xl">
+          <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto p-4">
+            <div className="flex w-full max-w-2xl max-h-[calc(100vh-2rem)] flex-col overflow-hidden rounded-2xl bg-white shadow-2xl">
               <div
                 className="flex items-center justify-between px-6 py-3 text-white"
                 style={{ backgroundColor: "#3B82F6" }}
@@ -73,7 +73,7 @@ export default function EmbassyDetailPage() {
                   Close
                 </button>
               </div>
-              <div className="px-6 py-6 space-y-4">
+              <div className="flex-1 space-y-4 overflow-y-auto px-6 py-6">
                 <div className="grid gap-4 md:grid-cols-2">
                   <div>
                     <label className="text-sm font-medium text-gray-700">Detail (Markdown)</label>

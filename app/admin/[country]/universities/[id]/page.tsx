@@ -12,7 +12,8 @@ type University = {
   contactNumber: string;
   email: string;
   website: string;
-  entryRequirement: string[];
+  undergradRequirement: string;
+  postgradRequirement: string;
   englishRequirement: string[];
   moiList: string;
   additionalNote: string;
@@ -68,7 +69,8 @@ export default function UniversityDetailPage() {
         <Detail label="Contact Number" value={university.contactNumber} />
         <Detail label="Email Address" value={university.email} />
         <Detail label="Website" value={university.website} />
-        <Detail label="Entry Requirement" value={university.entryRequirement.join(", ")} />
+        <Detail label="Undergrad Requirement" value={university.undergradRequirement || "Not provided"} />
+        <Detail label="Postgrad Requirement" value={university.postgradRequirement || "Not provided"} />
         <Detail label="English Requirement" value={university.englishRequirement.join(", ")} />
         <Detail label="MOI List" value={university.moiList || "Not provided"} />
         <Detail label="Additional Note" value={university.additionalNote || "Not provided"} />

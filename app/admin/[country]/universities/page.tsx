@@ -12,14 +12,13 @@ type University = {
   contactNumber: string;
   email: string;
   website: string;
-  entryRequirement: string[];
+  undergradRequirement: string;
+  postgradRequirement: string;
   englishRequirement: string[];
   moiList: string;
   additionalNote: string;
   createdAt: string;
 };
-
-const ENTRY_OPTIONS = ["Undergrade", "Postgrade"];
 const ENGLISH_OPTIONS = ["IELTS", "PTE", "Oxford", "Language Cert"];
 
 const emptyForm = {
@@ -29,7 +28,8 @@ const emptyForm = {
   contactNumber: "",
   email: "",
   website: "",
-  entryRequirement: [] as string[],
+  undergradRequirement: "",
+  postgradRequirement: "",
   englishRequirement: [] as string[],
   moiList: "",
   additionalNote: "",
@@ -94,7 +94,8 @@ export default function CountryUniversitiesPage() {
       contactNumber: item.contactNumber,
       email: item.email,
       website: item.website,
-      entryRequirement: item.entryRequirement ?? [],
+      undergradRequirement: item.undergradRequirement ?? "",
+      postgradRequirement: item.postgradRequirement ?? "",
       englishRequirement: item.englishRequirement ?? [],
       moiList: item.moiList ?? "",
       additionalNote: item.additionalNote ?? "",
@@ -109,17 +110,9 @@ export default function CountryUniversitiesPage() {
     formData.contactNumber.trim() &&
     formData.email.trim() &&
     formData.website.trim() &&
-    formData.entryRequirement.length > 0 &&
+    formData.undergradRequirement.trim() &&
+    formData.postgradRequirement.trim() &&
     formData.englishRequirement.length > 0;
-
-  const toggleEntry = (value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      entryRequirement: prev.entryRequirement.includes(value)
-        ? prev.entryRequirement.filter((item) => item !== value)
-        : [...prev.entryRequirement, value],
-    }));
-  };
 
   const toggleEnglish = (value: string) => {
     setFormData((prev) => ({
@@ -136,7 +129,7 @@ export default function CountryUniversitiesPage() {
       setUniversities((prev) =>
         prev.map((item) =>
           item.id === editingId
-            ? { ...item, ...formData, entryRequirement: [...formData.entryRequirement] }
+            ? { ...item, ...formData }
             : item
         )
       );
@@ -145,7 +138,6 @@ export default function CountryUniversitiesPage() {
         id: `${Date.now()}`,
         createdAt: new Date().toISOString(),
         ...formData,
-        entryRequirement: [...formData.entryRequirement],
         englishRequirement: [...formData.englishRequirement],
       };
       setUniversities((prev) => [newItem, ...prev]);
@@ -233,8 +225,8 @@ export default function CountryUniversitiesPage() {
       {isModalOpen && (
         <>
           <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm" />
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <div className="w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-2xl">
+          <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-6">
+            <div className="flex w-full max-w-2xl max-h-[90vh] flex-col overflow-hidden rounded-2xl bg-white shadow-2xl">
               <div
                 className="flex items-center justify-between px-6 py-3 text-white"
                 style={{ backgroundColor: "#3B82F6" }}
@@ -253,7 +245,7 @@ export default function CountryUniversitiesPage() {
                   Close
                 </button>
               </div>
-              <div className="space-y-5 px-6 py-6">
+              <div className="flex-1 space-y-5 overflow-y-auto px-6 py-6">
                 <div className="grid gap-4 md:grid-cols-2">
                   <div>
                     <label className="text-sm font-medium text-gray-700">
@@ -326,22 +318,33 @@ export default function CountryUniversitiesPage() {
                   </div>
                 </div>
 
-                <div>
-                  <label className="text-sm font-medium text-gray-700">
-                    Entry Requirement <span className="text-red-500">*</span>
-                  </label>
-                  <div className="mt-2 flex flex-wrap gap-3">
-                    {ENTRY_OPTIONS.map((option) => (
-                      <label key={option} className="flex items-center gap-2 text-sm text-gray-700">
-                        <input
-                          type="checkbox"
-                          checked={formData.entryRequirement.includes(option)}
-                          onChange={() => toggleEntry(option)}
-                          className="h-4 w-4 rounded border-gray-300"
-                        />
-                        {option}
-                      </label>
-                    ))}
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div>
+                    <label className="text-sm font-medium text-gray-700">
+                      Undergrad Requirement <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      value={formData.undergradRequirement}
+                      onChange={(event) =>
+                        setFormData({ ...formData, undergradRequirement: event.target.value })
+                      }
+                      className="mt-2 w-full rounded-xl border px-3 py-2 text-sm"
+                      placeholder="e.g. Minimum GPA / %"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-gray-700">
+                      Postgrad Requirement <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      value={formData.postgradRequirement}
+                      onChange={(event) =>
+                        setFormData({ ...formData, postgradRequirement: event.target.value })
+                      }
+                      className="mt-2 w-full rounded-xl border px-3 py-2 text-sm"
+                      placeholder="e.g. Minimum GPA / %"
+                    />
                   </div>
                 </div>
 
